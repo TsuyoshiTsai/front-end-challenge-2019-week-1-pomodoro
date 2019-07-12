@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { hot } from 'react-hot-loader'
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import Loadable from 'react-loadable'
 import classnames from 'classnames/bind'
 
 // Components
@@ -16,27 +17,32 @@ import TomatoSVG from './assets/images/icons/Tomato.svg'
 import styles from './style.module.scss'
 
 // Variables / Functions
+const loading = () => null
+const AddNewTask = Loadable({ loader: () => import('./js/views/AddNewTask'), loading })
+const AnalyticsReport = Loadable({ loader: () => import('./js/views/AnalyticsReport'), loading })
+const RingTone = Loadable({ loader: () => import('./js/views/RingTone'), loading })
+const TaskList = Loadable({ loader: () => import('./js/views/TaskList'), loading })
 const cx = classnames.bind(styles)
 const navigations = [
   {
     path: 'add-new-task',
     icon: { name: 'plus', mode: '01' },
-    component: props => 'add-new-task',
+    component: AddNewTask,
   },
   {
     path: 'task-list',
     icon: { name: 'hamburger', mode: '01' },
-    component: props => 'task-list',
+    component: TaskList,
   },
   {
     path: 'analytics-report',
     icon: { name: 'line-chart', mode: '01' },
-    component: props => 'analytics-report',
+    component: AnalyticsReport,
   },
   {
     path: 'ring-tone',
     icon: { name: 'ring-note', mode: '01' },
-    component: props => 'ring-tone',
+    component: RingTone,
   },
 ]
 
