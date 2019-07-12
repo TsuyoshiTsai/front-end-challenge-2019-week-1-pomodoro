@@ -1,0 +1,19 @@
+$font-size: $font-size-sm;
+
+$line-height: 20px;
+
+.typography-text {
+  align-items: center;
+  line-height: $line-height;
+  font-size: $font-size;
+
+  &__content {
+    align-self: center;
+  }
+
+  &__prefix {
+    flex-shrink: 0;
+    display: inline-flex;
+    color: currentColor;
+  }
+}

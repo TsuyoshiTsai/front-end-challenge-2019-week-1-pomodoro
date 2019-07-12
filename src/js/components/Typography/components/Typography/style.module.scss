@@ -1,0 +1,26 @@
+// ---
+// colors
+$colors: (
+  inherit: inherit,
+  white: $gray-white,
+  gray-light: $gray-light
+);
+
+.typography {
+  align-items: center;
+
+  &[data-is-block="true"] {
+    display: flex;
+    width: 100%;
+  }
+
+  &[data-is-block="false"] {
+    display: inline-flex;
+  }
+
+  @each $color, $style in $colors {
+    &[data-color="#{$color}"] {
+      color: $style;
+    }
+  }
+}

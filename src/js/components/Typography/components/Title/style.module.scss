@@ -1,0 +1,33 @@
+$levels: (
+  h1: (
+    line-height: 1.25,
+    font-size: $font-size-xs * 2
+  ),
+  h2: (
+    line-height: 1.25,
+    font-size: $font-size-xl
+  ),
+  h3: (
+    line-height: 1.25,
+    font-size: $font-size-lg
+  ),
+  h4: (
+    line-height: 1.25,
+    font-size: $font-size-md
+  ),
+  h5: (
+    line-height: 1.25,
+    font-size: $font-size-sm
+  )
+);
+
+.typography-title {
+  width: 100%;
+
+  @each $level, $styles in $levels {
+    &[data-level="#{$level}"] {
+      line-height: map-get($styles, line-height);
+      font-size: map-get($styles, font-size);
+    }
+  }
+}
