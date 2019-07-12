@@ -1,0 +1,15 @@
+.layout {
+  flex: auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* fix firefox can't set width smaller than content on flex item */
+
+  &[data-has-sider="true"] {
+    flex-direction: row;
+
+    & > [role="layout"],
+    & > [role="layout-content"] {
+      overflow-x: hidden;
+    }
+  }
+}
