@@ -1,29 +1,87 @@
 import React, { useState } from 'react'
-import { Switch, Route, withRouter } from 'react-router-dom'
 import { hot } from 'react-hot-loader'
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import classnames from 'classnames/bind'
 
 // Components
+import Icon from './js/components/Icon'
 import Layout from './js/components/Layout'
+import Menu from './js/components/Menu'
 
-const Home = props => <div>home</div>
+// Images
+import TomatoSVG from './assets/images/icons/Tomato.svg'
+
+// Style
+import styles from './style.module.scss'
+
+// Variables / Functions
+const cx = classnames.bind(styles)
+const navigations = [
+  {
+    path: 'add-new-task',
+    icon: { name: 'plus', mode: '01' },
+    component: props => 'add-new-task',
+  },
+  {
+    path: 'task-list',
+    icon: { name: 'hamburger', mode: '01' },
+    component: props => 'task-list',
+  },
+  {
+    path: 'analytics-report',
+    icon: { name: 'line-chart', mode: '01' },
+    component: props => 'analytics-report',
+  },
+  {
+    path: 'ring-tone',
+    icon: { name: 'ring-note', mode: '01' },
+    component: props => 'ring-tone',
+  },
+]
+
+export const propTypes = {
+  match: PropTypes.object,
+}
 
 function App (props) {
+  const { match } = props
+
   const [isSiderCollapsed, setIsSiderCollapsed] = useState(true)
 
   return (
-    <Layout height='100vh'>
-      <Layout.Content style={{ background: 'pink' }}>
-        <Switch>
-          <Route strict sensitive path='/' component={Home} />
-          {/* <Redirect push from='/' to='/home' /> */}
-        </Switch>
-      </Layout.Content>
-      <Layout.Sider isCollapsed={isSiderCollapsed} collapsedWidth={82} width={600}>
-        <button onClick={event => setIsSiderCollapsed(!isSiderCollapsed)}>click me!</button>
-        aaa
+    <Layout className={cx('app')} height='100vh'>
+      <Layout.Content style={{ background: 'pink' }}>clock</Layout.Content>
+
+      <Layout.Sider className={cx('app__sider')} isCollapsed={isSiderCollapsed} collapsedWidth={80} width={600}>
+        <button className={cx('app__sider-collapse-toggler')} onClick={event => setIsSiderCollapsed(!isSiderCollapsed)}>
+          <img src={TomatoSVG} alt='tomato' />
+          <Icon name='arrow-right' mode='01' flipped={isSiderCollapsed ? 'horizontally' : 'vertically'} />
+        </button>
+
+        <Menu className={cx('app__sider-menu')}>
+          {navigations.map(({ path, icon }, index) => (
+            <Menu.Item key={index} onClick={event => (isSiderCollapsed ? setIsSiderCollapsed(false) : null)}>
+              <Menu.Link to={`${match.url}${path}`}>
+                <Icon name={icon.name} mode={icon.mode} />
+              </Menu.Link>
+            </Menu.Item>
+          ))}
+        </Menu>
+
+        <main className={cx('app__sider-main')}>
+          <Switch>
+            {navigations.map(({ path, component }, index) => (
+              <Route key={index} strict sensitive path={`${match.url}${path}`} component={component} />
+            ))}
+            <Redirect replace from={match.url} to={`${match.url}${navigations[0].path}`} />
+          </Switch>
+        </main>
       </Layout.Sider>
     </Layout>
   )
 }
+
+App.propTypes = propTypes
 
 export default hot(module)(withRouter(App))

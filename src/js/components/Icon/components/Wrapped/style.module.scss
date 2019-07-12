@@ -1,0 +1,25 @@
+// types
+$types: (
+  primary: (
+    filled-color: $color-primary,
+    filled-background-color: $gray-lightest
+  )
+);
+
+.icon-wrapped {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  padding: 9px;
+  width: 38px;
+  height: 38px;
+
+  @each $type, $styles in $types {
+    &[data-type='#{$type}'] {
+      color: map-get($styles, filled-color);
+      border-color: map-get($styles, filled-border-color);
+      background-color: map-get($styles, filled-background-color);
+    }
+  }
+}

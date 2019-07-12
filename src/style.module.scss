@@ -1,0 +1,34 @@
+.app {
+  &__sider {
+    position: relative;
+    display: flex;
+  }
+
+  &__sider-collapse-toggler {
+    position: absolute;
+    left: -35px;
+    bottom: 80px;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 90px;
+    height: 50px;
+    border-radius: 25px 5px 5px 25px;
+    background-color: $gray-white;
+  }
+
+  &__sider-menu {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    width: 80px;
+  }
+
+  &__sider-main {
+    padding: 30px 34px;
+    width: 100%;
+    color: $gray-white;
+    border-left: 2px solid $gray-dark;
+  }
+}
