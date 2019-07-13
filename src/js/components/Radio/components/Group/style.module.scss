@@ -1,10 +1,8 @@
-$font-size: $font-size-xs;
-
 // ---
 // tab
 $tab: (
   margin-left: 5px,
-  padding-vertical: 5px,
+  padding-vertical: 6px,
   padding-horizontal: 20px,
   border-radius: 8px,
   checked-true-color: $gray-white,
@@ -16,7 +14,6 @@ $tab: (
 .radio-group {
   position: relative;
   display: inline-flex;
-  font-size: $font-size;
 
   &[data-mode="default"] {
     &[data-direction="horizontal"] {
