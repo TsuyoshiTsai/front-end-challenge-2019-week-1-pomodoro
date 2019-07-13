@@ -3,6 +3,12 @@ export const setList = type => ({ list }) => ({
   payload: list,
 })
 
+export const addItemToList = type => ({ isBefore = false, item }) => ({
+  type,
+  isBefore,
+  payload: item,
+})
+
 export const addListToList = type => ({ isBefore = false, list }) => ({
   type,
   isBefore,

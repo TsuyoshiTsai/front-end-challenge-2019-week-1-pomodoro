@@ -1,1 +1,1 @@
-export { default as temp } from './_TEMPLATE'
+export { default as task } from './task'

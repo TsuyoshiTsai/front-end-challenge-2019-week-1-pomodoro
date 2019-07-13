@@ -1,10 +1,15 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Formik, Form, Field } from 'formik'
-// import PropTypes from 'prop-types'
+import uuidv4 from 'uuid/v4'
 // import classnames from 'classnames/bind'
 
 // Components
 import Typography from '../../components/Typography'
+
+// Modules
+import { selectors, operations } from '../../lib/redux/modules/task'
 
 // Style
 // import styles from './style.module.scss'
@@ -13,16 +18,30 @@ import Typography from '../../components/Typography'
 // const cx = classnames.bind(styles)
 
 export const propTypes = {
-  // match: PropTypes.object,
+  tasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      estimate: PropTypes.number.isRequired,
+      createdDateTime: PropTypes.string.isRequired,
+    })
+  ),
+  addTaskItem: PropTypes.func,
 }
 
 function AddNewTask (props) {
-  // const { match } = props
+  const { tasks, addTaskItem } = props
 
   const initialValues = { title: '', estimate: 0 }
 
   const onSubmit = (values, actions) => {
-    console.log('values :', values)
+    actions.resetForm(initialValues)
+
+    const id = uuidv4()
+    const createdDateTime = new Date().toString()
+    const item = { id, createdDateTime, ...values }
+
+    addTaskItem({ item })
   }
 
   return (
@@ -38,16 +57,46 @@ function AddNewTask (props) {
               <Typography.Title level='h3' color='gray-light'>
                 TASK TITLE
               </Typography.Title>
+
               <Field name='title' />
+
+              <Typography.Title level='h3' color='gray-light' marginTop={25}>
+                ESTIMATED TOMOTO
+              </Typography.Title>
+
+              <Field name='estimate' />
+
               <button type='submit'>ADD TASK</button>
             </Form>
           )
         }}
       </Formik>
+      <Typography.Hr marginTop={25} marginBottom={25} />
+      <Typography.Title level='h3' color='gray-light' marginTop={25}>
+        RECENTTLY ADDED TASKS
+      </Typography.Title>
+      {tasks.map((task, index) => (
+        <div key={index}>
+          {task.title} {task.createdDateTime}
+        </div>
+      ))}
     </>
   )
 }
 
 AddNewTask.propTypes = propTypes
 
-export default AddNewTask
+const mapStateToProps = (state, props) => {
+  return {
+    tasks: selectors.getListBySorting(state, { sortBy: 'desc' }),
+  }
+}
+
+const mapDispatchToProps = {
+  addTaskItem: operations.addItemToList,
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddNewTask)
