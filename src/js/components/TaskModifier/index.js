@@ -33,6 +33,7 @@ function TaskModifier (props) {
             <Form.InputField
               label='TASK TITLE'
               name='title'
+              style={{ height: isEdit && 40 }}
               labelProps={{ style: { marginBottom: isEdit && 5, fontSize: isEdit && 12 } }}
               groupProps={{ style: { marginBottom: isAdd ? 25 : isEdit && 20 } }}
             />
@@ -40,6 +41,7 @@ function TaskModifier (props) {
             <Form.InputField
               label='ESTIMATED TOMOTO'
               name='estimate'
+              style={{ height: isEdit && 40 }}
               labelProps={{ style: { marginBottom: isEdit && 5, fontSize: isEdit && 12 } }}
               groupProps={{ style: { marginBottom: isAdd ? 50 : isEdit && 20 } }}
             />
