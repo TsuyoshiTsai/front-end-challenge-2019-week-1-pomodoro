@@ -1,0 +1,11 @@
+.task-list-empty {
+  padding: 20px 40px;
+  text-align: center;
+  border-radius: 2px;
+  background-color: $gray-darker;
+
+  &__description {
+    margin-bottom: 10px;
+    font-size: $font-size-sm;
+  }
+}

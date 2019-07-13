@@ -1,17 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Formik } from 'formik'
 import uuidv4 from 'uuid/v4'
 // import classnames from 'classnames/bind'
 
 // Components
-import Button from '../../components/Button'
-import Form from '../../components/Form'
+import TaskModifier from '../../components/TaskModifier'
 import Typography from '../../components/Typography'
-
-// Lib MISC
-import validationSchema from './validationSchema'
 
 // Modules
 import { selectors, operations } from '../../lib/redux/modules/task'
@@ -27,7 +22,7 @@ export const propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      estimate: PropTypes.number.isRequired,
+      estimate: PropTypes.string.isRequired,
       createdDateTime: PropTypes.string.isRequired,
     })
   ),
@@ -44,7 +39,16 @@ function TaskAdd (props) {
 
     const id = uuidv4()
     const createdDateTime = new Date().toString()
-    const item = { id, createdDateTime, title: title.trim(), estimate }
+
+    const item = {
+      id,
+      title: title.trim(),
+      estimate,
+      isArchived: false,
+      isComplete: false,
+      createdDateTime,
+      updatedDateTime: createdDateTime,
+    }
 
     addTaskItem({ item })
   }
@@ -57,21 +61,7 @@ function TaskAdd (props) {
 
       <Typography.Hr marginTop={25} marginBottom={25} />
 
-      <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-        {({ isValid, isSubmitting }) => {
-          return (
-            <Form>
-              <Form.InputField label='TASK TITLE' name='title' />
-
-              <Form.InputField label='ESTIMATED TOMOTO' name='estimate' groupProps={{ marginBottom: 50 }} />
-
-              <Button type='primary' htmlType='submit' isBlock shape='rounded' disabled={!isValid || isSubmitting}>
-                ADD TASK
-              </Button>
-            </Form>
-          )
-        }}
-      </Formik>
+      <TaskModifier mode='add' initialValues={initialValues} onSubmit={onSubmit} />
 
       <Typography.Hr marginTop={30} marginBottom={20} />
 

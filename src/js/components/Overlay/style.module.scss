@@ -1,0 +1,7 @@
+$background-color: rgba($gray-darkest, 0.9);
+
+.overlay {
+  background-color: $background-color;
+  overflow-y: auto;
+  @include full-fill;
+}

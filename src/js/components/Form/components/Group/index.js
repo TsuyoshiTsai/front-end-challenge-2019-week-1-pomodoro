@@ -10,19 +10,16 @@ const cx = classnames.bind(styles)
 
 export const propTypes = {
   isFlexbox: PropTypes.bool,
-  marginBottom: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  style: PropTypes.object,
+  withMarginBottom: PropTypes.bool,
   className: PropTypes.string,
 }
 
-export const defaultProps = {
-  marginBottom: 25,
-}
+export const defaultProps = {}
 
 function Group (props) {
-  const { isFlexbox, marginBottom, style, className, ...restProps } = props
+  const { isFlexbox, withMarginBottom, className, ...restProps } = props
 
-  return <div className={cx('form-group', className)} data-is-flexbox={isFlexbox} style={{ marginBottom, ...style }} {...restProps} />
+  return <div className={cx('form-group', className)} data-is-flexbox={isFlexbox} data-with-margin-bottom={withMarginBottom} {...restProps} />
 }
 
 Group.propTypes = propTypes

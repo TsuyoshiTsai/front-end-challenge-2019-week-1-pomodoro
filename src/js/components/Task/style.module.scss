@@ -1,0 +1,20 @@
+.task {
+  border-radius: 2px;
+  background-color: $gray-darker;
+
+  &:not(:last-of-type) {
+    margin-bottom: 1px;
+  }
+
+  &__title-wrapper {
+    padding: 8px 0;
+    @include size(100%);
+  }
+
+  &__title {
+    margin-bottom: 5px;
+  }
+
+  &__estimate {
+  }
+}

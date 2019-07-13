@@ -1,3 +1,5 @@
+$margin-bottom: 24px;
+
 .form-group {
   position: relative;
   width: 100%;
@@ -6,7 +8,12 @@
     display: flex;
   }
 
-  &:last-child {
+  &:not(:last-child),
+  &[data-with-margin-bottom="true"] {
+    margin-bottom: $margin-bottom;
+  }
+
+  &[data-with-margin-bottom="false"] {
     margin-bottom: 0;
   }
 }

@@ -1,0 +1,12 @@
+$padding-vertical: 40px;
+$padding-horizontal: 40px;
+
+.modal {
+  z-index: 1;
+  padding: $padding-vertical $padding-horizontal;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  will-change: opacity;
+  @include full-fill(fixed);
+}

@@ -1,0 +1,16 @@
+$border-color-focused: $color-primary;
+
+.radio-label {
+  cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  outline: none;
+  transition: all 400ms $transition-mode;
+
+  &:hover > [role="radio-icon"],
+  & > [role="radio-input"]:focus + [role="radio-icon"] {
+    border-color: $border-color-focused;
+  }
+}

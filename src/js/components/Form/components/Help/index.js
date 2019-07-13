@@ -27,7 +27,7 @@ function Help (props) {
   const prevChildren = usePrevious(children)
 
   return (
-    <Transition items={isShowed} from={{ opacity: 0, bottom: -14 }} enter={{ opacity: 1, bottom: -18 }} leave={{ opacity: 0, bottom: -14 }}>
+    <Transition items={isShowed} from={{ opacity: 0, bottom: -8 }} enter={{ opacity: 1, bottom: -14 }} leave={{ opacity: 0, bottom: -8 }}>
       {items =>
         items &&
         (props => (

@@ -1,0 +1,9 @@
+$description-color: $gray-dark;
+$description-font-size: $font-size-sm;
+
+.empty {
+  &__description {
+    color: $description-color;
+    font-size: $description-font-size;
+  }
+}

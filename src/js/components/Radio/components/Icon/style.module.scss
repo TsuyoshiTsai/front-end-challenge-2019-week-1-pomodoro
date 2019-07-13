@@ -1,0 +1,75 @@
+$margin-right: 10px;
+
+$size: 16px;
+$circle-size: 8px;
+
+$border-width: 1px;
+$border-style: solid;
+
+// ---
+
+// checked
+$checked-true-color: $gray-white;
+$checked-true-border-color: transparent;
+$checked-true-background-color: $color-primary;
+
+$checked-false-color: transparent;
+$checked-false-border-color: $gray-dark;
+$checked-false-background-color: $gray-white;
+
+// effect
+$effect-color: $color-primary;
+
+// disabled
+$disabled-color: $gray;
+$disabled-border-color: $gray-light;
+$disabled-background-color: $gray-lighter;
+
+.radio-icon {
+  flex-shrink: 0;
+  position: relative;
+  margin-right: $margin-right;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-width: $border-width;
+  border-style: $border-style;
+  border-radius: 50%;
+  transition: all 400ms $transition-mode;
+  @include size($size);
+
+  &__circle {
+    border-radius: inherit;
+    background-color: currentColor;
+    will-change: transform;
+    @include size($circle-size);
+  }
+
+  &__effect {
+    position: absolute;
+    border-radius: inherit;
+    border: inherit;
+    border-color: $effect-color;
+    will-change: transform, opacity;
+    @include size(100%);
+  }
+
+  &[data-is-checked="true"] {
+    color: $checked-true-color;
+    border-color: $checked-true-border-color;
+    background-color: $checked-true-background-color;
+  }
+
+  &[data-is-checked="false"] {
+    color: $checked-false-color;
+    border-color: $checked-false-border-color;
+    background-color: $checked-false-background-color;
+  }
+
+  &[data-is-disabled="true"] {
+    cursor: not-allowed;
+    color: $disabled-color;
+    border-color: $disabled-border-color;
+    background-color: $disabled-background-color;
+  }
+}
