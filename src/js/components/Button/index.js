@@ -76,6 +76,7 @@ function Button (props) {
     'data-size': hasContext && context.size ? context.size : size,
     'data-shape': hasContext && context.shape ? context.shape : shape,
     type: htmlType,
+    href,
     style: { ...style, width, height },
     ref: forwardRef,
     children: (

@@ -4,11 +4,12 @@ import { connect } from 'react-redux'
 import classnames from 'classnames/bind'
 
 // Components
-// import Collapse from '../../components/Collapse'
+import { withEmpty } from '../../components/Empty'
 import TaskModifier from '../../components/TaskModifier'
 import Task from '../../components/Task'
 import Typography from '../../components/Typography'
 import Radio from '../../components/Radio'
+import Empty from './components/Empty'
 
 // Style
 import styles from './style.module.scss'
@@ -19,6 +20,7 @@ import { filterByArchived, filterByComplete } from '../../lib/redux/modules/task
 
 // Variables / Functions
 const cx = classnames.bind(styles)
+const TaskGroupWithEmpty = withEmpty(Task.Group)
 const STATUS = { UNCOMPLETE: 'UNCOMPLETE', COMPLETE: 'COMPLETE', ARCHIVED: 'ARCHIVED' }
 const tabs = [{ label: 'TO DO', value: STATUS.UNCOMPLETE }, { label: 'DONE', value: STATUS.COMPLETE }, { label: 'ARCHIVE', value: STATUS.ARCHIVED }]
 
@@ -85,20 +87,18 @@ function TaskList (props) {
         ))}
       </Radio.Group>
 
-      <div>
-        <Task.Group>
-          {taskList.map((task, index) => (
-            <Task key={index} identify={task.id} task={task}>
-              <TaskModifier
-                mode='edit'
-                initialValues={{ title: task.title, estimate: task.estimate }}
-                onSubmit={(values, actions) => onSubmit(values, actions, task)}
-                className={cx('task-list__task-modifier')}
-              />
-            </Task>
-          ))}
-        </Task.Group>
-      </div>
+      <TaskGroupWithEmpty source={taskList} emptyComponent={Empty}>
+        {taskList.map((task, index) => (
+          <Task key={index} identify={task.id} task={task}>
+            <TaskModifier
+              mode='edit'
+              initialValues={{ title: task.title, estimate: task.estimate }}
+              onSubmit={(values, actions) => onSubmit(values, actions, task)}
+              className={cx('task-list__task-modifier')}
+            />
+          </Task>
+        ))}
+      </TaskGroupWithEmpty>
     </>
   )
 }
