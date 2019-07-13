@@ -28,14 +28,25 @@ $types: (
     filled-false-color: $color-primary,
     filled-false-color-activate: $color-primary-dark,
     filled-false-border-color: currentColor
+  ),
+  gray: (
+    filled-true-color: $gray-white,
+    filled-true-color-activate: $gray-white,
+    filled-true-border-color: transparent,
+    filled-true-border-color-activate: transparent,
+    filled-true-background-color: $gray-dark,
+    filled-true-background-color-activate: $gray,
+    filled-false-color: $gray-dark,
+    filled-false-color-activate: $gray,
+    filled-false-border-color: currentColor
   )
 );
 
 // sizes
 $sizes: (
   sm: (
-    padding-horizontal: 16px,
-    height: 34px,
+    padding-horizontal: 15px,
+    height: 40px,
     font-size: $font-size-xs
   ),
   md: (

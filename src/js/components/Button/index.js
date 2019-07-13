@@ -15,7 +15,7 @@ import styles from './style.module.scss'
 const cx = classnames.bind(styles)
 
 export const propTypes = {
-  type: PropTypes.oneOf(['default', 'primary']),
+  type: PropTypes.oneOf(['default', 'primary', 'gray']),
   isFilled: PropTypes.bool.isRequired,
   isBlock: PropTypes.bool.isRequired,
   size: PropTypes.oneOf(['sm', 'md']),
