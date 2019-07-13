@@ -9,6 +9,7 @@ import TaskModifier from '../../components/TaskModifier'
 import Task from '../../components/Task'
 import Typography from '../../components/Typography'
 import Radio from '../../components/Radio'
+import ArchiveModal from './components/ArchiveModal'
 import Empty from './components/Empty'
 
 // Style
@@ -23,6 +24,18 @@ const cx = classnames.bind(styles)
 const TaskGroupWithEmpty = withEmpty(Task.Group)
 const STATUS = { UNCOMPLETE: 'UNCOMPLETE', COMPLETE: 'COMPLETE', ARCHIVED: 'ARCHIVED' }
 const tabs = [{ label: 'TO DO', value: STATUS.UNCOMPLETE }, { label: 'DONE', value: STATUS.COMPLETE }, { label: 'ARCHIVE', value: STATUS.ARCHIVED }]
+const filterByStatus = (tasks, status) => {
+  switch (status) {
+    case STATUS.UNCOMPLETE:
+      return filterByComplete(filterByArchived(tasks, false), false)
+
+    case STATUS.COMPLETE:
+      return filterByComplete(filterByArchived(tasks, false), true)
+
+    case STATUS.ARCHIVED:
+      return filterByArchived(tasks, true)
+  }
+}
 
 export const propTypes = {
   tasks: PropTypes.arrayOf(
@@ -39,23 +52,16 @@ export const propTypes = {
 function TaskList (props) {
   const { tasks, editTask } = props
 
-  const [taskList, setTaskList] = useState(tasks)
+  const [filterStatus, setFilterStatus] = useState(tabs[0].value)
+  const [currentTask, setCurrentTask] = useState(null)
+  const [isModalOpened, setIsModalOpened] = useState(false)
 
-  const onRadioChange = (event, value) => {
-    switch (value) {
-      case STATUS.UNCOMPLETE:
-        setTaskList(filterByComplete(filterByArchived(tasks, false), false))
-        break
-
-      case STATUS.COMPLETE:
-        setTaskList(filterByComplete(filterByArchived(tasks, false), true))
-        break
-
-      case STATUS.ARCHIVED:
-        setTaskList(filterByArchived(tasks, true))
-        break
-    }
+  const onModalClose = event => {
+    setIsModalOpened(false)
+    setCurrentTask(null)
   }
+
+  const onRadioChange = (event, value) => setFilterStatus(value)
 
   const onSubmit = (values, actions, task) => {
     actions.resetForm(values)
@@ -71,15 +77,24 @@ function TaskList (props) {
     editTask({ keyName: 'id', key: task.id, item })
   }
 
+  const onArchive = (event, task) => {
+    setIsModalOpened(true)
+    setCurrentTask(task)
+  }
+
+  const filteredTasks = filterByStatus(tasks, filterStatus)
+
   return (
     <>
+      <ArchiveModal isOpened={isModalOpened} onClose={onModalClose} task={currentTask} />
+
       <Typography.Title level='h1' color='white' marginBottom={0} letterSpacing='.1em'>
         TASK LISTS
       </Typography.Title>
 
       <Typography.Hr marginTop={25} marginBottom={25} />
 
-      <Radio.Group mode='tab' defaultValue={tabs[0].value} onChange={onRadioChange}>
+      <Radio.Group mode='tab' value={filterStatus} onChange={onRadioChange}>
         {tabs.map((tab, index) => (
           <Radio key={index} value={tab.value}>
             {tab.label}
@@ -87,13 +102,14 @@ function TaskList (props) {
         ))}
       </Radio.Group>
 
-      <TaskGroupWithEmpty source={taskList} emptyComponent={Empty}>
-        {taskList.map((task, index) => (
-          <Task key={index} identify={task.id} task={task}>
+      <TaskGroupWithEmpty source={filteredTasks} emptyComponent={Empty}>
+        {filteredTasks.map((task, index) => (
+          <Task key={index} identify={task.id} task={task} isCollapsible={filterStatus === STATUS.UNCOMPLETE}>
             <TaskModifier
               mode='edit'
               initialValues={{ title: task.title, estimate: task.estimate }}
               onSubmit={(values, actions) => onSubmit(values, actions, task)}
+              onArchive={event => onArchive(event, task)}
               className={cx('task-list__task-modifier')}
             />
           </Task>

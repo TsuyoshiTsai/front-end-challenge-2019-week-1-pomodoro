@@ -16,10 +16,11 @@ export const propTypes = {
     estimate: PropTypes.string,
   }),
   onSubmit: PropTypes.func,
+  onArchive: PropTypes.func,
 }
 
 function TaskModifier (props) {
-  const { mode, initialValues, onSubmit, ...restProps } = props
+  const { mode, initialValues, onSubmit, onArchive, ...restProps } = props
 
   const isAdd = mode === 'add'
   const isEdit = mode === 'edit'
@@ -50,7 +51,7 @@ function TaskModifier (props) {
             ) : (
               isEdit && (
                 <Form.Group isFlexbox>
-                  <Button type='gray' htmlType='button' size='sm' shape='rounded'>
+                  <Button type='gray' htmlType='button' size='sm' shape='rounded' onClick={onArchive}>
                     ARCHIVE
                   </Button>
 

@@ -1,0 +1,93 @@
+$background-color: $gray-white;
+
+$border-radius: 5px;
+
+$shadow-x: 0;
+$shadow-y: 4px;
+$shadow-blur: 5px;
+$shadow-spread: 0;
+$shadow-color: rgba($gray-darkest, 0.3);
+
+$header-height: 60px;
+
+$icon-margin: 12px;
+$icon-svg-size: 10px;
+$icon-use-size: 20px;
+
+$cross-padding: ($icon-use-size - $icon-svg-size) / 2;
+$cross-color: $gray-dark;
+
+$arrow-padding: 31px 36px;
+$loading-padding: 27px 36px;
+
+$loading-overlay-background-color: rgba($gray-darkest, 0.25);
+
+// sizes
+$sizes: (
+  sm: (
+    width: 400px
+  ),
+  md: (
+    width: 600px
+  ),
+  lg: (
+    width: 784px
+  )
+);
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.modal-content {
+  z-index: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  background-color: $background-color;
+  border-radius: $border-radius;
+  box-shadow: $shadow-x $shadow-y $shadow-blur $shadow-spread $shadow-color;
+  will-change: top;
+
+  @each $size, $properties in $sizes {
+    &[data-size="#{$size}"] {
+      width: map-get($properties, width);
+    }
+  }
+
+  &__icon-wrapper {
+    z-index: 1;
+    position: absolute;
+    top: ($header-height - $icon-use-size) / 2 - $icon-margin;
+    right: 0;
+    margin: $icon-margin;
+    font-size: 0;
+
+    &--cross {
+      padding: $cross-padding;
+      color: $cross-color;
+    }
+
+    &--arrow {
+      padding: $arrow-padding;
+    }
+
+    &--loading {
+      padding: $loading-padding;
+      animation: rotate 1000ms linear infinite;
+    }
+  }
+
+  &__loading-overlay {
+    z-index: 1;
+    border-radius: $border-radius;
+    background-color: $loading-overlay-background-color;
+    @include full-fill;
+  }
+}

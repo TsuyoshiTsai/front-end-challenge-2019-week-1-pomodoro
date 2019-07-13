@@ -1,0 +1,9 @@
+.modal-body {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  width: 100%;
+  min-height: 70px;
+  max-height: 100%;
+}
