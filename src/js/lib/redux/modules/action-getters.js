@@ -15,6 +15,13 @@ export const addListToList = type => ({ isBefore = false, list }) => ({
   payload: list,
 })
 
+export const updateItemInList = type => ({ keyName, key, item }) => ({
+  type,
+  keyName,
+  key,
+  payload: item,
+})
+
 export const removeItemFromList = type => ({ keyName = 'id', key }) => ({
   type,
   payload: {

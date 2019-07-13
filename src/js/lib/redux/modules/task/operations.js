@@ -4,3 +4,5 @@
 import * as actions from './actions'
 
 export const addItemToList = actions.addItemToList
+
+export const updateItemInList = actions.updateItemInList

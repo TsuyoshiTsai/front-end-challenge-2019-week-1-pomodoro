@@ -42,7 +42,16 @@ function TaskAdd (props) {
 
     const id = uuidv4()
     const createdDateTime = new Date().toString()
-    const item = { id, createdDateTime, title: title.trim(), estimate }
+
+    const item = {
+      id,
+      title: title.trim(),
+      estimate,
+      isArchive: false,
+      isDone: false,
+      createdDateTime,
+      updatedDateTime: createdDateTime,
+    }
 
     addTaskItem({ item })
   }

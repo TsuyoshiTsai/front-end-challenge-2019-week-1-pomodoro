@@ -33,14 +33,14 @@ function TaskModifier (props) {
               label='TASK TITLE'
               name='title'
               labelProps={{ style: { marginBottom: isEdit && 5, fontSize: isEdit && 12 } }}
-              groupProps={{ style: { marginBottom: isAdd ? 25 : isEdit && 15 } }}
+              groupProps={{ style: { marginBottom: isAdd ? 25 : isEdit && 20 } }}
             />
 
             <Form.InputField
               label='ESTIMATED TOMOTO'
               name='estimate'
               labelProps={{ style: { marginBottom: isEdit && 5, fontSize: isEdit && 12 } }}
-              groupProps={{ style: { marginBottom: isAdd ? 50 : isEdit && 15 } }}
+              groupProps={{ style: { marginBottom: isAdd ? 50 : isEdit && 20 } }}
             />
 
             {isAdd ? (
@@ -50,7 +50,7 @@ function TaskModifier (props) {
             ) : (
               isEdit && (
                 <Form.Group isFlexbox>
-                  <Button type='gray' htmlType='button' size='sm' shape='rounded' disabled={!isValid || isSubmitting}>
+                  <Button type='gray' htmlType='button' size='sm' shape='rounded'>
                     ARCHIVE
                   </Button>
 

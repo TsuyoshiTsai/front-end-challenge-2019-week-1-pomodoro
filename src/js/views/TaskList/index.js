@@ -13,7 +13,7 @@ import Typography from '../../components/Typography'
 import styles from './style.module.scss'
 
 // Modules
-import { selectors } from '../../lib/redux/modules/task'
+import { selectors, operations } from '../../lib/redux/modules/task'
 
 // Variables / Functions
 const cx = classnames.bind(styles)
@@ -27,13 +27,24 @@ export const propTypes = {
       createdDateTime: PropTypes.string.isRequired,
     })
   ),
+  editTask: PropTypes.func,
 }
 
 function TaskList (props) {
-  const { tasks } = props
+  const { tasks, editTask } = props
 
-  const onSubmit = (values, actions) => {
-    console.log('values :', values)
+  const onSubmit = (values, actions, task) => {
+    actions.resetForm(values)
+
+    const updatedDateTime = new Date().toString()
+
+    const item = {
+      title: values.title.trim(),
+      estimate: values.estimate,
+      updatedDateTime,
+    }
+
+    editTask({ keyName: 'id', key: task.id, item })
   }
 
   return (
@@ -48,7 +59,12 @@ function TaskList (props) {
         <Task.Group>
           {tasks.map((task, index) => (
             <Task key={index} identify={task.id} task={task}>
-              <TaskModifier mode='edit' initialValues={{ title: task.title, estimate: task.estimate }} onSubmit={onSubmit} className={cx('task-list__task-modifier')} />
+              <TaskModifier
+                mode='edit'
+                initialValues={{ title: task.title, estimate: task.estimate }}
+                onSubmit={(values, actions) => onSubmit(values, actions, task)}
+                className={cx('task-list__task-modifier')}
+              />
             </Task>
           ))}
         </Task.Group>
@@ -65,7 +81,9 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  editTask: operations.updateItemInList,
+}
 
 export default connect(
   mapStateToProps,
