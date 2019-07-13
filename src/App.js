@@ -67,7 +67,7 @@ function App (props) {
 
         <Menu className={cx('app__sider-menu')}>
           {navigations.map(({ path, icon }, index) => (
-            <Menu.Item key={index} onClick={event => (isSiderCollapsed ? setIsSiderCollapsed(false) : null)}>
+            <Menu.Item key={index} onClick={isSiderCollapsed ? event => setIsSiderCollapsed(false) : null}>
               <Menu.Link to={`${match.url}${path}`}>
                 <Icon name={icon.name} mode={icon.mode} />
               </Menu.Link>
@@ -75,7 +75,7 @@ function App (props) {
           ))}
         </Menu>
 
-        <main className={cx('app__sider-main')}>
+        <main className={cx('app__sider-main')} style={{ opacity: isSiderCollapsed ? 0 : 1, visibility: isSiderCollapsed ? 'hidden' : 'visible' }}>
           <Switch>
             {navigations.map(({ path, component }, index) => (
               <Route key={index} strict sensitive path={`${match.url}${path}`} component={component} />
