@@ -15,9 +15,6 @@ const cx = classnames.bind(styles)
 
 export const propTypes = {
   level: PropTypes.oneOf(['h1', 'h2', 'h3', 'h4', 'h5']),
-  marginTop: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  marginBottom: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  style: PropTypes.object,
   className: PropTypes.string,
 }
 
@@ -27,17 +24,9 @@ export const defaultProps = {
 }
 
 function Title (props) {
-  const { level, marginTop, marginBottom, style, className, ...restProps } = props
+  const { level, className, ...restProps } = props
 
-  return (
-    <Typography
-      element={level}
-      data-level={level}
-      style={{ ...style, marginTop, marginBottom }}
-      className={cx('typography-title', className)}
-      {...restProps}
-    />
-  )
+  return <Typography element={level} data-level={level} className={cx('typography-title', className)} {...restProps} />
 }
 
 Title.propTypes = propTypes

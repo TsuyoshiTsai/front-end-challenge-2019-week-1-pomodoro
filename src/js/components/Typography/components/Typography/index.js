@@ -13,29 +13,31 @@ import styles from './style.module.scss'
 const cx = classnames.bind(styles)
 
 export const propTypes = {
-  color: PropTypes.oneOf(['inherit', 'white', 'gray-light']),
+  element: PropTypes.string,
   isBlock: PropTypes.bool,
+  color: PropTypes.oneOf(['inherit', 'white', 'gray-light']),
   align: PropTypes.oneOf(['flex-start', 'flex-end', 'center', 'space-between', 'space-around']),
+  marginTop: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  marginBottom: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   fontWeight: PropTypes.number,
   letterSpacing: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  element: PropTypes.string,
   style: PropTypes.object,
   className: PropTypes.string,
 }
 
 export const defaultProps = {
-  color: 'inherit',
-  isBlock: false,
   element: 'div',
+  isBlock: false,
+  color: 'inherit',
 }
 
 function Typography (props) {
-  const { color, isBlock, align, fontWeight, letterSpacing, element, style, className, ...restProps } = props
+  const { element, isBlock, color, align, marginTop, marginBottom, fontWeight, letterSpacing, style, className, ...restProps } = props
 
   return React.createElement(element, {
     'data-color': color,
     'data-is-block': isBlock,
-    style: { fontWeight, letterSpacing, justifyContent: align, ...style },
+    style: { marginTop, marginBottom, fontWeight, letterSpacing, justifyContent: align, ...style },
     className: cx('typography', className),
     ...restProps,
   })

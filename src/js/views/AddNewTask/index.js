@@ -73,9 +73,9 @@ function AddNewTask (props) {
         }}
       </Formik>
 
-      <Typography.Hr marginTop={25} marginBottom={25} />
+      <Typography.Hr marginTop={30} marginBottom={20} />
 
-      <Typography.Title level='h3' color='gray-light' marginTop={25}>
+      <Typography.Title level='h2' color='white'>
         RECENTTLY ADDED TASKS
       </Typography.Title>
 

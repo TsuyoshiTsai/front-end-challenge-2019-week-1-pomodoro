@@ -14,16 +14,13 @@ import styles from './style.module.scss'
 const cx = classnames.bind(styles)
 
 export const propTypes = {
-  marginTop: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  marginBottom: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  style: PropTypes.object,
   className: PropTypes.string,
 }
 
 function Hr (props) {
-  const { marginTop, marginBottom, style, className, ...restProps } = props
+  const { className, ...restProps } = props
 
-  return <Typography element='hr' className={cx('typography-hr', className)} style={{ ...style, marginTop, marginBottom }} {...restProps} />
+  return <Typography element='hr' className={cx('typography-hr', className)} {...restProps} />
 }
 
 Hr.propTypes = propTypes
