@@ -14,12 +14,12 @@ export const propTypes = {
   // match: PropTypes.object,
 }
 
-function AnalyticsReport (props) {
+function TaskAnalytics (props) {
   // const { match } = props
 
   return <div>analytics-report</div>
 }
 
-AnalyticsReport.propTypes = propTypes
+TaskAnalytics.propTypes = propTypes
 
-export default AnalyticsReport
+export default TaskAnalytics

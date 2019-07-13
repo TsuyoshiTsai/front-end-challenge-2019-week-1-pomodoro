@@ -18,26 +18,26 @@ import styles from './style.module.scss'
 
 // Variables / Functions
 const loading = () => null
-const AddNewTask = Loadable({ loader: () => import('./js/views/AddNewTask'), loading })
-const AnalyticsReport = Loadable({ loader: () => import('./js/views/AnalyticsReport'), loading })
 const RingTone = Loadable({ loader: () => import('./js/views/RingTone'), loading })
+const TaskAdd = Loadable({ loader: () => import('./js/views/TaskAdd'), loading })
+const TaskAnalytics = Loadable({ loader: () => import('./js/views/TaskAnalytics'), loading })
 const TaskList = Loadable({ loader: () => import('./js/views/TaskList'), loading })
 const cx = classnames.bind(styles)
 const navigations = [
   {
-    path: 'add-new-task',
+    path: 'task/add',
     icon: { name: 'plus', mode: '01' },
-    component: AddNewTask,
+    component: TaskAdd,
   },
   {
-    path: 'task-list',
+    path: 'task/list',
     icon: { name: 'hamburger', mode: '01' },
     component: TaskList,
   },
   {
-    path: 'analytics-report',
+    path: 'task/analytics',
     icon: { name: 'line-chart', mode: '01' },
-    component: AnalyticsReport,
+    component: TaskAnalytics,
   },
   {
     path: 'ring-tone',

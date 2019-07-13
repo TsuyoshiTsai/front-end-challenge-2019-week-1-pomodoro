@@ -34,7 +34,7 @@ export const propTypes = {
   addTaskItem: PropTypes.func,
 }
 
-function AddNewTask (props) {
+function TaskAdd (props) {
   const { tasks, addTaskItem } = props
 
   const initialValues = { title: '', estimate: '' }
@@ -88,7 +88,7 @@ function AddNewTask (props) {
   )
 }
 
-AddNewTask.propTypes = propTypes
+TaskAdd.propTypes = propTypes
 
 const mapStateToProps = (state, props) => {
   return {
@@ -103,4 +103,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AddNewTask)
+)(TaskAdd)
