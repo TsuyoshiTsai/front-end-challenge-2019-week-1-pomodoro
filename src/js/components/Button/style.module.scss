@@ -1,4 +1,4 @@
-$font-weight: 400;
+$font-weight: 500;
 
 $border-width: 1px;
 $border-style: solid;
@@ -68,7 +68,6 @@ $disabled-background-color: $gray-light;
 .button {
   cursor: pointer;
   flex-shrink: 0;
-  display: inline-flex;
   justify-content: center;
   align-items: center;
   font-weight: $font-weight;
@@ -108,6 +107,10 @@ $disabled-background-color: $gray-light;
   &[data-is-block="true"] {
     display: flex;
     width: 100%;
+  }
+
+  &[data-is-block="false"] {
+    display: inline-flex;
   }
 
   @each $size, $styles in $sizes {

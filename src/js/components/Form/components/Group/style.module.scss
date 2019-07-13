@@ -1,0 +1,12 @@
+.form-group {
+  position: relative;
+  width: 100%;
+
+  &[data-is-flexbox="true"] {
+    display: flex;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

@@ -1,13 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Formik, Form, Field } from 'formik'
+import { Formik } from 'formik'
 import uuidv4 from 'uuid/v4'
 // import classnames from 'classnames/bind'
 
 // Components
 import Button from '../../components/Button'
+import Form from '../../components/Form'
 import Typography from '../../components/Typography'
+
+// Lib MISC
+import validationSchema from './validationSchema'
 
 // Modules
 import { selectors, operations } from '../../lib/redux/modules/task'
@@ -33,14 +37,14 @@ export const propTypes = {
 function AddNewTask (props) {
   const { tasks, addTaskItem } = props
 
-  const initialValues = { title: '', estimate: 0 }
+  const initialValues = { title: '', estimate: '' }
 
-  const onSubmit = (values, actions) => {
+  const onSubmit = ({ title, estimate }, actions) => {
     actions.resetForm(initialValues)
 
     const id = uuidv4()
     const createdDateTime = new Date().toString()
-    const item = { id, createdDateTime, ...values }
+    const item = { id, createdDateTime, title: title.trim(), estimate }
 
     addTaskItem({ item })
   }
@@ -51,21 +55,13 @@ function AddNewTask (props) {
         ADD NEW TASK
       </Typography.Title>
       <Typography.Hr marginTop={25} marginBottom={25} />
-      <Formik initialValues={initialValues} onSubmit={onSubmit}>
-        {({ isValid, isSubmitting, ...rest }) => {
+      <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+        {({ isValid, isSubmitting }) => {
           return (
             <Form>
-              <Typography.Title level='h3' color='gray-light'>
-                TASK TITLE
-              </Typography.Title>
+              <Form.InputField label='TASK TITLE' name='title' />
 
-              <Field name='title' />
-
-              <Typography.Title level='h3' color='gray-light' marginTop={25}>
-                ESTIMATED TOMOTO
-              </Typography.Title>
-
-              <Field name='estimate' />
+              <Form.InputField label='ESTIMATED TOMOTO' name='estimate' groupProps={{ marginBottom: 50 }} />
 
               <Button type='primary' htmlType='submit' isBlock shape='rounded' disabled={!isValid || isSubmitting}>
                 ADD TASK
