@@ -17,6 +17,7 @@ export const propTypes = {
   isBlock: PropTypes.bool,
   align: PropTypes.oneOf(['flex-start', 'flex-end', 'center', 'space-between', 'space-around']),
   fontWeight: PropTypes.number,
+  letterSpacing: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   element: PropTypes.string,
   style: PropTypes.object,
   className: PropTypes.string,
@@ -29,12 +30,12 @@ export const defaultProps = {
 }
 
 function Typography (props) {
-  const { color, isBlock, align, fontWeight, element, style, className, ...restProps } = props
+  const { color, isBlock, align, fontWeight, letterSpacing, element, style, className, ...restProps } = props
 
   return React.createElement(element, {
     'data-color': color,
     'data-is-block': isBlock,
-    style: { fontWeight, justifyContent: align, ...style },
+    style: { fontWeight, letterSpacing, justifyContent: align, ...style },
     className: cx('typography', className),
     ...restProps,
   })

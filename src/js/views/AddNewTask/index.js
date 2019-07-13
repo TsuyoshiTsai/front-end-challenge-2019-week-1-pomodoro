@@ -51,10 +51,12 @@ function AddNewTask (props) {
 
   return (
     <>
-      <Typography.Title level='h1' color='white' marginBottom={0}>
+      <Typography.Title level='h1' color='white' marginBottom={0} letterSpacing='.1em'>
         ADD NEW TASK
       </Typography.Title>
+
       <Typography.Hr marginTop={25} marginBottom={25} />
+
       <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
         {({ isValid, isSubmitting }) => {
           return (
@@ -70,10 +72,13 @@ function AddNewTask (props) {
           )
         }}
       </Formik>
+
       <Typography.Hr marginTop={25} marginBottom={25} />
+
       <Typography.Title level='h3' color='gray-light' marginTop={25}>
         RECENTTLY ADDED TASKS
       </Typography.Title>
+
       {tasks.map((task, index) => (
         <div key={index}>
           {task.title} {task.createdDateTime}

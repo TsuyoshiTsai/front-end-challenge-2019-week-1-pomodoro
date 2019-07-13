@@ -23,7 +23,6 @@ export const propTypes = {
 
 export const defaultProps = {
   level: 'h1',
-  fontWeight: 400,
   marginBottom: '0.25em',
 }
 

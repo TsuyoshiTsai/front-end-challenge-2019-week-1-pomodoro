@@ -1,23 +1,28 @@
 $levels: (
   h1: (
     line-height: 1.25,
-    font-size: $font-size-xs * 2
+    font-size: $font-size-xs * 2,
+    font-weight: 900
   ),
   h2: (
     line-height: 1.25,
-    font-size: $font-size-xl
+    font-size: $font-size-xl,
+    font-weight: 700
   ),
   h3: (
     line-height: 1.25,
-    font-size: $font-size-lg
+    font-size: $font-size-lg,
+    font-weight: 700
   ),
   h4: (
     line-height: 1.25,
-    font-size: $font-size-md
+    font-size: $font-size-md,
+    font-weight: 400
   ),
   h5: (
     line-height: 1.25,
-    font-size: $font-size-sm
+    font-size: $font-size-sm,
+    font-weight: 400
   )
 );
 
@@ -28,6 +33,7 @@ $levels: (
     &[data-level="#{$level}"] {
       line-height: map-get($styles, line-height);
       font-size: map-get($styles, font-size);
+      font-weight: map-get($styles, font-weight);
     }
   }
 }
