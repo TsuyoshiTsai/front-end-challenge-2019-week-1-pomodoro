@@ -6,6 +6,7 @@ import uuidv4 from 'uuid/v4'
 // import classnames from 'classnames/bind'
 
 // Components
+import Button from '../../components/Button'
 import Typography from '../../components/Typography'
 
 // Modules
@@ -51,7 +52,7 @@ function AddNewTask (props) {
       </Typography.Title>
       <Typography.Hr marginTop={25} marginBottom={25} />
       <Formik initialValues={initialValues} onSubmit={onSubmit}>
-        {() => {
+        {({ isValid, isSubmitting, ...rest }) => {
           return (
             <Form>
               <Typography.Title level='h3' color='gray-light'>
@@ -66,7 +67,9 @@ function AddNewTask (props) {
 
               <Field name='estimate' />
 
-              <button type='submit'>ADD TASK</button>
+              <Button type='primary' htmlType='submit' isBlock shape='rounded' disabled={!isValid || isSubmitting}>
+                ADD TASK
+              </Button>
             </Form>
           )
         }}
