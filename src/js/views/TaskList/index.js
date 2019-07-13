@@ -85,7 +85,7 @@ function TaskList (props) {
   const filteredTasks = filterByStatus(tasks, filterStatus)
 
   return (
-    <>
+    <div className={cx('task-list')}>
       <ArchiveModal isOpened={isModalOpened} onClose={onModalClose} task={currentTask} />
 
       <Typography.Title level='h1' color='white' marginBottom={0} letterSpacing='.1em'>
@@ -115,7 +115,7 @@ function TaskList (props) {
           </Task>
         ))}
       </TaskGroupWithEmpty>
-    </>
+    </div>
   )
 }
 

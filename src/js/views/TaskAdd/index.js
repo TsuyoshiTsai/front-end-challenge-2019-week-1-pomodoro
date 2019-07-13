@@ -2,30 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import uuidv4 from 'uuid/v4'
-// import classnames from 'classnames/bind'
 
 // Components
+import { withEmpty } from '../../components/Empty'
+import Task, { propTypes as TaskPropTypes } from '../../components/Task'
 import TaskModifier from '../../components/TaskModifier'
 import Typography from '../../components/Typography'
 
 // Modules
 import { selectors, operations } from '../../lib/redux/modules/task'
 
-// Style
-// import styles from './style.module.scss'
-
 // Variables / Functions
-// const cx = classnames.bind(styles)
+const TaskGroupWithEmpty = withEmpty(Task.Group)
+const COUNT = 5
 
 export const propTypes = {
-  tasks: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      estimate: PropTypes.string.isRequired,
-      createdDateTime: PropTypes.string.isRequired,
-    })
-  ),
+  tasks: PropTypes.arrayOf(TaskPropTypes.task),
   addTaskItem: PropTypes.func,
 }
 
@@ -65,15 +57,17 @@ function TaskAdd (props) {
 
       <Typography.Hr marginTop={30} marginBottom={20} />
 
-      <Typography.Title level='h2' color='white'>
-        RECENTTLY ADDED TASKS
+      <Typography.Title level='h5' color='gray-light' fontWeight={700} marginBottom={10}>
+        RECENTTLY ADDED {COUNT} TASKS
       </Typography.Title>
 
-      {tasks.map((task, index) => (
-        <div key={index}>
-          {task.title} {task.createdDateTime}
-        </div>
-      ))}
+      <TaskGroupWithEmpty source={tasks} emptyProps={{ description: 'No Tasks' }}>
+        {tasks.map((task, index) => (
+          <Task key={index} task={task} isCollapsible={false}>
+            {task.title} {task.createdDateTime}
+          </Task>
+        ))}
+      </TaskGroupWithEmpty>
     </>
   )
 }
@@ -82,7 +76,7 @@ TaskAdd.propTypes = propTypes
 
 const mapStateToProps = (state, props) => {
   return {
-    tasks: selectors.getListBySorting(state, { sortBy: 'desc' }),
+    tasks: selectors.getListBySorting(state, { sortBy: 'desc' }).slice(0, COUNT),
   }
 }
 
