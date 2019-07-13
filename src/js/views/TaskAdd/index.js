@@ -8,9 +8,6 @@ import uuidv4 from 'uuid/v4'
 import TaskModifier from '../../components/TaskModifier'
 import Typography from '../../components/Typography'
 
-// Lib MISC
-import validationSchema from './validationSchema'
-
 // Modules
 import { selectors, operations } from '../../lib/redux/modules/task'
 
@@ -47,8 +44,8 @@ function TaskAdd (props) {
       id,
       title: title.trim(),
       estimate,
-      isArchive: false,
-      isDone: false,
+      isArchived: false,
+      isComplete: false,
       createdDateTime,
       updatedDateTime: createdDateTime,
     }
@@ -64,7 +61,7 @@ function TaskAdd (props) {
 
       <Typography.Hr marginTop={25} marginBottom={25} />
 
-      <TaskModifier mode='add' initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit} />
+      <TaskModifier mode='add' initialValues={initialValues} onSubmit={onSubmit} />
 
       <Typography.Hr marginTop={30} marginBottom={20} />
 
