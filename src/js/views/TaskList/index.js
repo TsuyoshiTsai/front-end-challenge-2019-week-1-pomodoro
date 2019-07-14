@@ -6,7 +6,7 @@ import classnames from 'classnames/bind'
 // Components
 import { withEmpty } from '../../components/Empty'
 import TaskModifier from '../../components/TaskModifier'
-import Task from '../../components/Task'
+import Task, { propTypes as TaskPropTypes } from '../../components/Task'
 import Typography from '../../components/Typography'
 import Radio from '../../components/Radio'
 import ArchiveModal from './components/ArchiveModal'
@@ -38,14 +38,7 @@ const filterByStatus = (tasks, status) => {
 }
 
 export const propTypes = {
-  tasks: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      estimate: PropTypes.string.isRequired,
-      createdDateTime: PropTypes.string.isRequired,
-    })
-  ),
+  tasks: PropTypes.arrayOf(TaskPropTypes.task),
   editTask: PropTypes.func,
 }
 

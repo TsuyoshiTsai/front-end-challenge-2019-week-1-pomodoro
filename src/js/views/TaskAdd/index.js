@@ -38,6 +38,7 @@ function TaskAdd (props) {
       estimate,
       isArchived: false,
       isComplete: false,
+      passedSeconds: 0,
       createdDateTime,
       updatedDateTime: createdDateTime,
     }

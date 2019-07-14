@@ -69,7 +69,7 @@ function App (props) {
 
       <Layout.Sider className={cx('app__sider')} isCollapsed={isSiderCollapsed} collapsedWidth={80} width={600}>
         <button className={cx('app__sider-collapse-toggler')} onClick={event => setIsSiderCollapsed(!isSiderCollapsed)}>
-          <img src={TomatoSVG} alt='tomato' />
+          <img width='25px' height='25px' src={TomatoSVG} alt='tomato' />
           <Icon name='arrow-right' mode='01' flipped={isSiderCollapsed ? 'horizontally' : 'vertically'} />
         </button>
 

@@ -20,6 +20,7 @@ export const propTypes = {
     estimate: PropTypes.string,
     isArchived: PropTypes.bool,
     isComplete: PropTypes.bool,
+    passedSeconds: PropTypes.number,
     createdDateTime: PropTypes.string,
     updatedDateTime: PropTypes.string,
   }),
