@@ -1,0 +1,20 @@
+.timer {
+  width: 300px;
+  text-align: center;
+
+  &__chart-wrapper {
+    margin: 50px 0;
+    display: flex;
+  }
+
+  &__action-list {
+    margin: 50px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__complete-button {
+    display: inline-flex;
+    align-items: center;
+  }
+}

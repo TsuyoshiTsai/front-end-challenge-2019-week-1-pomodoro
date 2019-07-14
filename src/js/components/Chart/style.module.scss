@@ -1,0 +1,11 @@
+.chart {
+  transform: rotate(-90deg);
+  width: 100%;
+  border-radius: 50%;
+
+  &__number {
+    transform-origin: 50%;
+    transform: rotate(90deg);
+    letter-spacing: 0.1em;
+  }
+}
