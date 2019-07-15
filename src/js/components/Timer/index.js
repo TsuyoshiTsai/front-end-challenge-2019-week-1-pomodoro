@@ -7,12 +7,13 @@ import classnames from 'classnames/bind'
 import Button from '../Button'
 import Chart from '../Chart'
 import Icon from '../Icon'
-import { propTypes as TaskPropTypes } from '../Task'
+import Task, { propTypes as TaskPropTypes } from '../Task'
 import Typography from '../Typography'
 import Empty from './components/Empty'
 
 // Modules
 import { operations, selectors } from '../../lib/redux/modules/task'
+import { getPercentageOfClock, getRemainingSecondsOfClock, checkIsTimeout } from '../../lib/redux/modules/task/utils'
 
 // Assets
 import CheckSVG from '../../../assets/images/icons/Check.svg'
@@ -22,10 +23,7 @@ import styles from './style.module.scss'
 
 // Variables / Functions
 const cx = classnames.bind(styles)
-const totalSeconds = 0.1 * 60
 const formatTimerText = seconds => `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`
-const getPercentage = seconds => (seconds === totalSeconds ? 101 : (seconds / totalSeconds) * 100)
-const checkIsTimeout = seconds => seconds >= totalSeconds
 
 export const propTypes = {
   task: TaskPropTypes.task,
@@ -64,13 +62,15 @@ function Timer (props) {
           </Typography.Title>
 
           <div>
-            <div style={{ width: 12, height: 12 }}>
-              <Chart type='pie' percentage={70} />
-            </div>
+            <Task.ClockGroup size='md' align='center' estimateClocks={task.estimateClocks} passedSeconds={task.passedSeconds} />
           </div>
 
           <div className={cx('timer__chart-wrapper')}>
-            <Chart type='ring' percentage={getPercentage(task.passedSeconds)} text={formatTimerText(totalSeconds - task.passedSeconds)} />
+            <Chart
+              type='ring'
+              percentage={getPercentageOfClock(task.passedSeconds) === 100 ? 101 : getPercentageOfClock(task.passedSeconds)}
+              text={formatTimerText(getRemainingSecondsOfClock(task.passedSeconds))}
+            />
           </div>
 
           <div className={cx('timer__action-list')}>

@@ -5,5 +5,5 @@ export default Yup.object().shape({
     .max(100, `Can't enter over than 100 characters`)
     .trim()
     .required('Please enter task title.'),
-  estimate: Yup.string(),
+  estimateClocks: Yup.number(),
 })

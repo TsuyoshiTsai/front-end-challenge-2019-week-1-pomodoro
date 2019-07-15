@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Formik } from 'formik'
+import { Formik, Field } from 'formik'
 
 // Components
 import Button from '../Button'
@@ -13,7 +13,7 @@ export const propTypes = {
   mode: PropTypes.oneOf(['add', 'edit']),
   initialValues: PropTypes.shape({
     title: PropTypes.string,
-    estimate: PropTypes.string,
+    estimateClocks: PropTypes.number,
   }),
   onSubmit: PropTypes.func,
   onArchive: PropTypes.func,
@@ -38,13 +38,10 @@ function TaskModifier (props) {
               groupProps={{ style: { marginBottom: isAdd ? 25 : isEdit && 20 } }}
             />
 
-            <Form.InputField
-              label='ESTIMATED TOMOTO'
-              name='estimate'
-              style={{ height: isEdit && 40 }}
-              labelProps={{ style: { marginBottom: isEdit && 5, fontSize: isEdit && 12 } }}
-              groupProps={{ style: { marginBottom: isAdd ? 50 : isEdit && 20 } }}
-            />
+            <Form.Group style={{ marginBottom: isAdd ? 50 : isEdit && 20 }}>
+              <Form.Label style={{ marginBottom: isEdit && 5, fontSize: isEdit && 12 }}>ESTIMATE TOMATO</Form.Label>
+              <Field name='estimateClocks' type='number' style={{ height: isEdit && 40 }} />
+            </Form.Group>
 
             {isAdd ? (
               <Button type='primary' htmlType='submit' isBlock shape='rounded' disabled={!isValid || isSubmitting}>

@@ -24,9 +24,9 @@ export const propTypes = {
 function TaskAdd (props) {
   const { tasks, addTaskItem } = props
 
-  const initialValues = { title: '', estimate: '' }
+  const initialValues = { title: '', estimateClocks: 1 }
 
-  const onSubmit = ({ title, estimate }, actions) => {
+  const onSubmit = ({ title, estimateClocks }, actions) => {
     actions.resetForm(initialValues)
 
     const id = uuidv4()
@@ -35,7 +35,7 @@ function TaskAdd (props) {
     const item = {
       id,
       title: title.trim(),
-      estimate,
+      estimateClocks,
       isArchived: false,
       isComplete: false,
       passedSeconds: 0,

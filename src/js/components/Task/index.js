@@ -6,6 +6,7 @@ import classnames from 'classnames/bind'
 import Collapse from '../Collapse'
 import Typography from '../Typography'
 import Group from './components/Group'
+import ClockGroup from './components/ClockGroup'
 
 // Style
 import styles from './style.module.scss'
@@ -17,7 +18,7 @@ export const propTypes = {
   task: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,
-    estimate: PropTypes.string,
+    estimateClocks: PropTypes.number,
     isArchived: PropTypes.bool,
     isComplete: PropTypes.bool,
     passedSeconds: PropTypes.number,
@@ -35,7 +36,7 @@ function Task (props) {
       header={
         <div className={cx('task__title-wrapper')}>
           <Typography.Text className={cx('task__title')}>{task.title}</Typography.Text>
-          <div className={cx('task__estimate')}>{task.estimate}</div>
+          <ClockGroup estimateClocks={task.estimateClocks} passedSeconds={task.passedSeconds} />
         </div>
       }
       {...restProps}
@@ -46,5 +47,6 @@ function Task (props) {
 Task.propTypes = propTypes
 
 Task.Group = Group
+Task.ClockGroup = ClockGroup
 
 export default Task

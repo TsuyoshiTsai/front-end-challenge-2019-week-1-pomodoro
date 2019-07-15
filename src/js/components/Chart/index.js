@@ -19,6 +19,7 @@ export const propTypes = {
   ringColor: PropTypes.string,
   centerColor: PropTypes.string,
   segmentColor: PropTypes.string,
+  className: PropTypes.string,
 }
 
 export const defaultProps = {
@@ -32,12 +33,12 @@ export const defaultProps = {
 }
 
 function Chart (props) {
-  const { type, percentage, text, textFontSize, strokeWidth, ringColor, centerColor, segmentColor } = props
+  const { type, percentage, text, textFontSize, strokeWidth, ringColor, centerColor, segmentColor, className } = props
 
   const realStrokeWidth = Math.ceil(((strokeWidth / 100) * 32) / 1.5)
 
   return (
-    <svg className={cx('chart')} viewBox='0 0 32 32'>
+    <svg className={cx('chart', className)} role='chart' viewBox='0 0 32 32'>
       {/* ring */}
       <circle
         r='16'

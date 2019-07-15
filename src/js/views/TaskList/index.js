@@ -65,7 +65,7 @@ function TaskList (props) {
 
     const item = {
       title: values.title.trim(),
-      estimate: values.estimate,
+      estimateClocks: values.estimateClocks,
       updatedDateTime,
     }
 
@@ -108,7 +108,7 @@ function TaskList (props) {
           >
             <TaskModifier
               mode='edit'
-              initialValues={{ title: task.title, estimate: task.estimate }}
+              initialValues={{ title: task.title, estimateClocks: task.estimateClocks }}
               onSubmit={(values, actions) => onSubmit(values, actions, task)}
               onArchive={event => onArchive(event, task)}
               className={cx('task-list__task-modifier')}

@@ -1,0 +1,5 @@
+export const SECONDS_OF_MINUTE = 60
+
+export const MINUTES_OF_CLOCK = 0.05
+
+export const SECONDS_OF_CLOCK = MINUTES_OF_CLOCK * SECONDS_OF_MINUTE
