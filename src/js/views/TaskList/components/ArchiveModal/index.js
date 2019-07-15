@@ -54,7 +54,7 @@ const mapStateToProps = (state, props) => {
 }
 
 const mapDispatchToProps = {
-  archiveTask: ({ id }) => operations.updateItemInList({ keyName: 'id', key: id, item: { isArchived: true } }),
+  archiveTask: operations.archiveTask,
 }
 
 export default connect(

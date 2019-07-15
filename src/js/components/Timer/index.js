@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classnames from 'classnames/bind'
@@ -9,14 +9,13 @@ import Chart from '../Chart'
 import Icon from '../Icon'
 import { propTypes as TaskPropTypes } from '../Task'
 import Typography from '../Typography'
+import Empty from './components/Empty'
 
 // Modules
-import { selectors, operations } from '../../lib/redux/modules/task'
-import { filterByArchived, filterByComplete } from '../../lib/redux/modules/task/utils'
+import { operations, selectors } from '../../lib/redux/modules/task'
 
 // Assets
 import CheckSVG from '../../../assets/images/icons/Check.svg'
-import TomatoSVG from '../../../assets/images/icons/Tomato.svg'
 
 // Style
 import styles from './style.module.scss'
@@ -24,49 +23,44 @@ import styles from './style.module.scss'
 // Variables / Functions
 const cx = classnames.bind(styles)
 const totalSeconds = 0.1 * 60
+const formatTimerText = seconds => `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`
+const getPercentage = seconds => (seconds === totalSeconds ? 101 : (seconds / totalSeconds) * 100)
+const checkIsTimeout = seconds => seconds >= totalSeconds
 
 export const propTypes = {
-  uncompleteTasks: PropTypes.arrayOf(TaskPropTypes.task),
-  // updatePassedSeconds: PropTypes.func,
+  task: TaskPropTypes.task,
+  isCounting: PropTypes.bool,
+  updatePassedSeconds: PropTypes.func,
+  setIsCounting: PropTypes.func,
 }
 
 function Timer (props) {
-  const { uncompleteTasks } = props
-  // const { updatePassedSeconds } = props
-  // console.log('uncompleteTasks :', uncompleteTasks)
-  const [isActive, setIsActive] = useState(false)
-  const [passedSeconds, setPassedSeconds] = useState(0)
-  const intervalId = useRef(null)
+  const { task, isCounting, updatePassedSeconds, setIsCounting } = props
 
-  const remainingSeconds = totalSeconds - passedSeconds
-  const timerMinutes = String(Math.floor(remainingSeconds / 60)).padStart(2, '0')
-  const timerSeconds = String(remainingSeconds % 60).padStart(2, '0')
-
-  const isTimeout = passedSeconds >= totalSeconds
-  const percentage = (passedSeconds / totalSeconds) * 100
+  const timeoutId = useRef(null)
 
   useEffect(() => {
-    if (isActive && !isTimeout) {
-      intervalId.current = setInterval(() => {
-        setPassedSeconds(passedSeconds + 1)
-        // updatePassedSeconds(passedSeconds + 1)
+    if (isCounting && !checkIsTimeout(task.passedSeconds)) {
+      timeoutId.current = setTimeout(() => {
+        updatePassedSeconds({ id: task.id, passedSeconds: task.passedSeconds + 1 })
       }, 1000)
+    } else if (isCounting && checkIsTimeout(task.passedSeconds)) {
+      setIsCounting(false)
     }
 
     return () => {
-      clearInterval(intervalId.current)
+      clearTimeout(timeoutId.current)
     }
-  }, [isActive, isTimeout, passedSeconds])
-
-  const onPlay = event => (isActive && isTimeout ? null : setIsActive(true))
-  const onPause = event => (!isActive && isTimeout ? null : setIsActive(false))
+  }, [task, isCounting, updatePassedSeconds, setIsCounting])
 
   return (
     <div className={cx('timer')}>
-      {uncompleteTasks.length > 0 ? (
+      {task === null ? (
+        <Empty />
+      ) : (
         <>
           <Typography.Title level='h1' fontWeight={700} align='center'>
-            My First Task
+            {task.title}
           </Typography.Title>
 
           <div>
@@ -76,15 +70,19 @@ function Timer (props) {
           </div>
 
           <div className={cx('timer__chart-wrapper')}>
-            <Chart type='ring' percentage={percentage === 100 ? percentage + 1 : percentage} text={`${timerMinutes}:${timerSeconds}`} />
+            <Chart type='ring' percentage={getPercentage(task.passedSeconds)} text={formatTimerText(totalSeconds - task.passedSeconds)} />
           </div>
 
           <div className={cx('timer__action-list')}>
-            <Button shape='circle' htmlType='button' onClick={onPlay}>
+            <Button shape='circle' htmlType='button' onClick={isCounting || checkIsTimeout(task.passedSeconds) ? null : event => setIsCounting(true)}>
               <Icon name='play' mode='01' />
             </Button>
 
-            <Button shape='circle' htmlType='button' onClick={onPause}>
+            <Button
+              shape='circle'
+              htmlType='button'
+              onClick={!isCounting || checkIsTimeout(task.passedSeconds) ? null : event => setIsCounting(false)}
+            >
               <Icon name='pause' mode='01' />
             </Button>
 
@@ -99,21 +97,6 @@ function Timer (props) {
             </Typography.Text>
           </button>
         </>
-      ) : (
-        <>
-          <div className={cx('timer__empty-image-wrapper')}>
-            <Typography.Title color='white' letterSpacing='.15em' fontWeight={300} align='center' marginBottom={0}>
-              PODOMORO
-            </Typography.Title>
-            <img className={cx('timer__empty-image')} src={TomatoSVG} alt='tomato' />
-          </div>
-
-          <Typography.Text marginTop={50} letterSpacing='.1em'>
-            You don’t have any task now,
-            <br />
-            please add task first!
-          </Typography.Text>
-        </>
       )}
     </div>
   )
@@ -123,12 +106,14 @@ Timer.propTypes = propTypes
 
 const mapStateToProps = (state, props) => {
   return {
-    uncompleteTasks: filterByComplete(filterByArchived(selectors.getList(state, props), false), false),
+    task: selectors.getCurrentTask(state, props),
+    isCounting: selectors.getIsCounting(state, props),
   }
 }
 
 const mapDispatchToProps = {
   updatePassedSeconds: ({ id, passedSeconds }) => operations.updateItemInList({ keyName: 'id', key: id, item: { passedSeconds } }),
+  setIsCounting: operations.setIsCounting,
 }
 
 export default connect(

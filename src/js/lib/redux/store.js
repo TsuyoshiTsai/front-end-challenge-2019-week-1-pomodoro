@@ -1,4 +1,5 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
+import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
@@ -7,7 +8,7 @@ import * as modules from './modules'
 const isDevelopment = process.env.NODE_ENV === 'development'
 
 export const initializeStore = () => {
-  let middlewares = []
+  let middlewares = [thunk]
 
   if (isDevelopment) {
     middlewares = [...middlewares, createLogger({ diff: true, collapsed: true, titleFormatter: action => `action： ${action.type}` })]

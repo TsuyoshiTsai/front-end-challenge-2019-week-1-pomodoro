@@ -39,11 +39,13 @@ const filterByStatus = (tasks, status) => {
 
 export const propTypes = {
   tasks: PropTypes.arrayOf(TaskPropTypes.task),
+  isCounting: PropTypes.bool,
   editTask: PropTypes.func,
+  setCurrentId: PropTypes.func,
 }
 
 function TaskList (props) {
-  const { tasks, editTask } = props
+  const { tasks, isCounting, editTask, setCurrentId } = props
 
   const [filterStatus, setFilterStatus] = useState(tabs[0].value)
   const [currentTask, setCurrentTask] = useState(null)
@@ -97,7 +99,13 @@ function TaskList (props) {
 
       <TaskGroupWithEmpty source={filteredTasks} emptyComponent={Empty}>
         {filteredTasks.map((task, index) => (
-          <Task key={index} identify={task.id} task={task} isCollapsible={filterStatus === STATUS.UNCOMPLETE}>
+          <Task
+            key={index}
+            identify={task.id}
+            task={task}
+            isCollapsible={filterStatus === STATUS.UNCOMPLETE}
+            onClick={!isCounting && filterStatus === STATUS.UNCOMPLETE ? event => setCurrentId(task.id) : null}
+          >
             <TaskModifier
               mode='edit'
               initialValues={{ title: task.title, estimate: task.estimate }}
@@ -117,11 +125,13 @@ TaskList.propTypes = propTypes
 const mapStateToProps = (state, props) => {
   return {
     tasks: selectors.getListBySorting(state, { sortBy: 'desc' }),
+    isCounting: selectors.getIsCounting(state, props),
   }
 }
 
 const mapDispatchToProps = {
   editTask: operations.updateItemInList,
+  setCurrentId: operations.setCurrentId,
 }
 
 export default connect(

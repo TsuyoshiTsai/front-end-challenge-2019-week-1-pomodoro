@@ -4,6 +4,7 @@
   border-radius: 50%;
 
   &__number {
+    fill: currentColor;
     transform-origin: 50%;
     transform: rotate(90deg);
     letter-spacing: 0.1em;
