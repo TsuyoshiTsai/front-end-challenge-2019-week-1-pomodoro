@@ -2,12 +2,26 @@
   display: flex;
 
   &[data-size="sm"] > [role="chart"] {
-    margin: 0 3px;
     width: 8px;
+
+    &:not(:first-child) {
+      margin-left: 3px;
+    }
+
+    &:not(:last-child) {
+      margin-right: 3px;
+    }
   }
 
   &[data-size="md"] > [role="chart"] {
-    margin: 0 5px;
     width: 12px;
+
+    &:not(:first-child) {
+      margin-left: 5px;
+    }
+
+    &:not(:last-child) {
+      margin-right: 5px;
+    }
   }
 }

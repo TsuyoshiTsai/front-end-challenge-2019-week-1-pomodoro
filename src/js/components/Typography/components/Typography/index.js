@@ -20,6 +20,7 @@ export const propTypes = {
   marginTop: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   marginBottom: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   fontWeight: PropTypes.number,
+  lineHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   letterSpacing: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   style: PropTypes.object,
   className: PropTypes.string,
@@ -32,12 +33,12 @@ export const defaultProps = {
 }
 
 function Typography (props) {
-  const { element, isBlock, color, align, marginTop, marginBottom, fontWeight, letterSpacing, style, className, ...restProps } = props
+  const { element, isBlock, color, align, marginTop, marginBottom, fontWeight, lineHeight, letterSpacing, style, className, ...restProps } = props
 
   return React.createElement(element, {
     'data-color': color,
     'data-is-block': isBlock,
-    style: { marginTop, marginBottom, fontWeight, letterSpacing, justifyContent: align, ...style },
+    style: { marginTop, marginBottom, fontWeight, lineHeight, letterSpacing, justifyContent: align, ...style },
     className: cx('typography', className),
     ...restProps,
   })

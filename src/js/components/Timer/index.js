@@ -57,13 +57,11 @@ function Timer (props) {
         <Empty />
       ) : (
         <>
-          <Typography.Title level='h1' fontWeight={700} align='center'>
+          <Typography.Title level='h1' fontWeight={700} align='center' marginBottom={10}>
             {task.title}
           </Typography.Title>
 
-          <div>
-            <Task.ClockGroup size='md' align='center' estimateClocks={task.estimateClocks} passedSeconds={task.passedSeconds} />
-          </div>
+          <Task.ClockGroup size='md' align='center' estimateClocks={task.estimateClocks} passedSeconds={task.passedSeconds} />
 
           <div className={cx('timer__chart-wrapper')}>
             <Chart
@@ -91,11 +89,19 @@ function Timer (props) {
             </Button>
           </div>
 
-          <button className={cx('timer__complete-button')} type='button' onClick={null}>
-            <Typography.Text prefix={<img src={CheckSVG} alt='complete' />} prefixMarginRight={5} letterSpacing='.1em' fontWeight={700}>
-              TASK COMPLETE
-            </Typography.Text>
-          </button>
+          <div className={cx('timer__complete-button-wrapper')}>
+            <button className={cx('timer__complete-button')} type='button' onClick={null}>
+              <Typography.Text
+                prefix={<img src={CheckSVG} alt='complete' />}
+                prefixMarginRight={5}
+                lineHeight={1}
+                letterSpacing='.1em'
+                fontWeight={700}
+              >
+                TASK COMPLETE
+              </Typography.Text>
+            </button>
+          </div>
         </>
       )}
     </div>
