@@ -17,7 +17,7 @@ import styles from './style.module.scss'
 
 // Modules
 import { selectors, operations } from '../../lib/redux/modules/task'
-import { filterByArchived, filterByComplete } from '../../lib/redux/modules/task/utils'
+import { filterByArchived, filterByComplete, getSecondsOfWork } from '../../lib/redux/modules/task/utils'
 
 // Variables / Functions
 const cx = classnames.bind(styles)
@@ -65,7 +65,7 @@ function TaskList (props) {
 
     const item = {
       title: values.title.trim(),
-      estimateClocks: values.estimateClocks,
+      estimateSeconds: getSecondsOfWork(values.estimateClocks),
       updatedDateTime,
     }
 

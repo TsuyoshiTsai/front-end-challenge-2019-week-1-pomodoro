@@ -18,10 +18,11 @@ export const propTypes = {
   task: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,
-    estimateClocks: PropTypes.number,
     isArchived: PropTypes.bool,
     isComplete: PropTypes.bool,
-    passedSeconds: PropTypes.number,
+    estimateSeconds: PropTypes.number,
+    workSeconds: PropTypes.number,
+    breakSeconds: PropTypes.number,
     createdDateTime: PropTypes.string,
     updatedDateTime: PropTypes.string,
   }),
@@ -36,7 +37,7 @@ function Task (props) {
       header={
         <div className={cx('task__title-wrapper')}>
           <Typography.Text className={cx('task__title')}>{task.title}</Typography.Text>
-          <ClockGroup estimateClocks={task.estimateClocks} passedSeconds={task.passedSeconds} />
+          <ClockGroup estimateSeconds={task.estimateSeconds} workSeconds={task.workSeconds} />
         </div>
       }
       {...restProps}

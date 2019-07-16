@@ -11,6 +11,7 @@ import Typography from '../../components/Typography'
 
 // Modules
 import { selectors, operations } from '../../lib/redux/modules/task'
+import { getSecondsOfWork } from '../../lib/redux/modules/task/utils'
 
 // Variables / Functions
 const TaskGroupWithEmpty = withEmpty(Task.Group)
@@ -35,10 +36,11 @@ function TaskAdd (props) {
     const item = {
       id,
       title: title.trim(),
-      estimateClocks,
       isArchived: false,
       isComplete: false,
-      passedSeconds: 0,
+      estimateSeconds: getSecondsOfWork(estimateClocks),
+      workSeconds: 0,
+      breakSeconds: 0,
       createdDateTime,
       updatedDateTime: createdDateTime,
     }

@@ -41,9 +41,9 @@ function Chart (props) {
     <svg className={cx('chart', className)} role='chart' viewBox='0 0 32 32'>
       {/* ring */}
       <circle
-        r='16'
-        cx='16'
-        cy='16'
+        r='15.9'
+        cx='15.9'
+        cy='15.9'
         fill={type === TYPE.RING ? centerColor : type === TYPE.PIE && 'transparent'}
         stroke={type === TYPE.RING ? ringColor : type === TYPE.PIE && segmentColor}
         strokeWidth={realStrokeWidth}
@@ -53,9 +53,9 @@ function Chart (props) {
       <Spring to={{ percentage }}>
         {({ percentage }) => (
           <circle
-            r='16'
-            cx='16'
-            cy='16'
+            r='15.9'
+            cx='15.9'
+            cy='15.9'
             fill='transparent'
             stroke={segmentColor}
             strokeWidth={type === TYPE.RING ? realStrokeWidth : type === TYPE.PIE && 32}

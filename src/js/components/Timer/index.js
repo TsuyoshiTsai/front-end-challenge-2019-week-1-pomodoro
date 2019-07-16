@@ -13,7 +13,7 @@ import Empty from './components/Empty'
 
 // Modules
 import { operations, selectors } from '../../lib/redux/modules/task'
-import { getPercentageOfClock, getRemainingSecondsOfClock, checkIsTimeout } from '../../lib/redux/modules/task/utils'
+import { getPercentageOfWork, getRemainingSecondsOfWork, checkIsTimeoutOfWork, formatSeconds } from '../../lib/redux/modules/task/utils'
 
 // Assets
 import CheckSVG from '../../../assets/images/icons/Check.svg'
@@ -23,33 +23,44 @@ import styles from './style.module.scss'
 
 // Variables / Functions
 const cx = classnames.bind(styles)
-const formatTimerText = seconds => `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`
 
 export const propTypes = {
   task: TaskPropTypes.task,
   isCounting: PropTypes.bool,
-  updatePassedSeconds: PropTypes.func,
+  updateWorkSeconds: PropTypes.func,
   setIsCounting: PropTypes.func,
 }
 
 function Timer (props) {
-  const { task, isCounting, updatePassedSeconds, setIsCounting } = props
+  const { task, isCounting, updateWorkSeconds, setIsCounting } = props
 
   const timeoutId = useRef(null)
 
   useEffect(() => {
-    if (isCounting && !checkIsTimeout(task.passedSeconds)) {
+    if (isCounting && !checkIsTimeoutOfWork(task.workSeconds)) {
       timeoutId.current = setTimeout(() => {
-        updatePassedSeconds({ id: task.id, passedSeconds: task.passedSeconds + 1 })
+        updateWorkSeconds({ id: task.id, workSeconds: task.workSeconds + 1 })
       }, 1000)
-    } else if (isCounting && checkIsTimeout(task.passedSeconds)) {
+    } else if (isCounting && checkIsTimeoutOfWork(task.workSeconds)) {
       setIsCounting(false)
     }
 
     return () => {
       clearTimeout(timeoutId.current)
     }
-  }, [task, isCounting, updatePassedSeconds, setIsCounting])
+  }, [task, isCounting, updateWorkSeconds, setIsCounting])
+
+  const onPlay = event => {
+    if (isCounting || checkIsTimeoutOfWork(task.workSeconds)) return
+
+    setIsCounting(true)
+  }
+
+  const onPause = event => {
+    if (!isCounting || checkIsTimeoutOfWork(task.workSeconds)) return
+
+    setIsCounting(false)
+  }
 
   return (
     <div className={cx('timer')}>
@@ -61,26 +72,18 @@ function Timer (props) {
             {task.title}
           </Typography.Title>
 
-          <Task.ClockGroup size='md' align='center' estimateClocks={task.estimateClocks} passedSeconds={task.passedSeconds} />
+          <Task.ClockGroup size='md' align='center' estimateSeconds={task.estimateSeconds} workSeconds={task.workSeconds} />
 
           <div className={cx('timer__chart-wrapper')}>
-            <Chart
-              type='ring'
-              percentage={getPercentageOfClock(task.passedSeconds) === 100 ? 101 : getPercentageOfClock(task.passedSeconds)}
-              text={formatTimerText(getRemainingSecondsOfClock(task.passedSeconds))}
-            />
+            <Chart type='ring' percentage={getPercentageOfWork(task.workSeconds)} text={formatSeconds(getRemainingSecondsOfWork(task.workSeconds))} />
           </div>
 
           <div className={cx('timer__action-list')}>
-            <Button shape='circle' htmlType='button' onClick={isCounting || checkIsTimeout(task.passedSeconds) ? null : event => setIsCounting(true)}>
+            <Button shape='circle' htmlType='button' onClick={onPlay}>
               <Icon name='play' mode='01' />
             </Button>
 
-            <Button
-              shape='circle'
-              htmlType='button'
-              onClick={!isCounting || checkIsTimeout(task.passedSeconds) ? null : event => setIsCounting(false)}
-            >
+            <Button shape='circle' htmlType='button' onClick={onPause}>
               <Icon name='pause' mode='01' />
             </Button>
 
@@ -118,7 +121,7 @@ const mapStateToProps = (state, props) => {
 }
 
 const mapDispatchToProps = {
-  updatePassedSeconds: ({ id, passedSeconds }) => operations.updateItemInList({ keyName: 'id', key: id, item: { passedSeconds } }),
+  updateWorkSeconds: ({ id, workSeconds }) => operations.updateItemInList({ keyName: 'id', key: id, item: { workSeconds } }),
   setIsCounting: operations.setIsCounting,
 }
 
