@@ -38,8 +38,10 @@ function Task (props) {
       className={cx('task')}
       header={
         <div className={cx('task__title-wrapper')}>
-          <Typography.Text className={cx('task__title')}>{task.title}</Typography.Text>
-          <ClockGroup estimateSeconds={task.estimateSeconds} workSeconds={task.workSeconds} />
+          <Typography.Text className={cx('task__title')} isBlock>
+            {task.title}
+          </Typography.Text>
+          <ClockGroup estimateSeconds={task.estimateSeconds} workSeconds={task.workSeconds} workFinishCount={task.workHistory.length} />
         </div>
       }
       {...restProps}

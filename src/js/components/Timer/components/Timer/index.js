@@ -43,7 +43,7 @@ export const propTypes = {
 
 function Timer (props) {
   const { task, isCounting, setWorkSeconds, setBreakSeconds, addWorkHistory, setIsBreaking, setIsCounting } = props
-  const { id, title, isBreaking, estimateSeconds, workSeconds, breakSeconds } = task
+  const { id, title, isBreaking, estimateSeconds, workSeconds, breakSeconds, workHistory } = task
 
   const percentage = isBreaking ? getPercentageOfBreak(breakSeconds) : getPercentageOfWork(workSeconds)
   const seconds = isBreaking ? getRemainingSecondsOfBreak(breakSeconds) : getRemainingSecondsOfWork(workSeconds)
@@ -97,7 +97,7 @@ function Timer (props) {
         {title}
       </Typography.Title>
 
-      <Task.ClockGroup size='md' align='center' estimateSeconds={estimateSeconds} workSeconds={workSeconds} />
+      <Task.ClockGroup size='md' align='center' estimateSeconds={estimateSeconds} workSeconds={workSeconds} workFinishCount={workHistory.length} />
 
       <div className={cx('timer__chart-wrapper')}>
         <Chart
