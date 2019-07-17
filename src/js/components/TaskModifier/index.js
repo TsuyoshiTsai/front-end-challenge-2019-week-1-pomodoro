@@ -1,33 +1,41 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Formik, Field } from 'formik'
 
 // Components
 import Button from '../Button'
 import Form from '../Form'
+import { propTypes as TaskPropTypes } from '../Task'
 
 // Lib MISC
 import validationSchema from './validationSchema'
 
+// Modules
+import { selectors } from '../../lib/redux/modules/task'
+
 export const propTypes = {
   mode: PropTypes.oneOf(['add', 'edit']),
   initialValues: PropTypes.shape({
+    id: PropTypes.string,
     title: PropTypes.string,
     estimateClocks: PropTypes.number,
   }),
   onSubmit: PropTypes.func,
   onArchive: PropTypes.func,
+  currentTask: TaskPropTypes.task,
+  isCounting: PropTypes.bool,
 }
 
 function TaskModifier (props) {
-  const { mode, initialValues, onSubmit, onArchive, ...restProps } = props
+  const { mode, initialValues, onSubmit, onArchive, currentTask, isCounting, ...restProps } = props
 
   const isAdd = mode === 'add'
   const isEdit = mode === 'edit'
 
   return (
     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-      {({ isValid, isSubmitting }) => {
+      {({ values, isValid, isSubmitting }) => {
         return (
           <Form {...restProps}>
             <Form.InputField
@@ -50,7 +58,14 @@ function TaskModifier (props) {
             ) : (
               isEdit && (
                 <Form.Group isFlexbox>
-                  <Button type='gray' htmlType='button' size='sm' shape='rounded' onClick={onArchive}>
+                  <Button
+                    type='gray'
+                    htmlType='button'
+                    size='sm'
+                    shape='rounded'
+                    disabled={currentTask && currentTask.id === values.id && isCounting}
+                    onClick={onArchive}
+                  >
                     ARCHIVE
                   </Button>
 
@@ -76,4 +91,16 @@ function TaskModifier (props) {
 
 TaskModifier.propTypes = propTypes
 
-export default TaskModifier
+const mapStateToProps = (state, props) => {
+  return {
+    currentTask: selectors.getCurrentTask(state, props),
+    isCounting: selectors.getIsCounting(state, props),
+  }
+}
+
+const mapDispatchToProps = {}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TaskModifier)

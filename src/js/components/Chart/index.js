@@ -42,14 +42,18 @@ function Chart (props) {
   return (
     <svg className={cx('chart', className)} data-is-flipped={isFlipped} role='chart' viewBox='0 0 32 32'>
       {/* ring */}
-      <circle
-        r='15.9'
-        cx='15.9'
-        cy='15.9'
-        fill={type === TYPE.RING ? centerColor : type === TYPE.PIE && 'transparent'}
-        stroke={type === TYPE.RING ? ringColor : type === TYPE.PIE && segmentColor}
-        strokeWidth={realStrokeWidth}
-      />
+      <Spring to={{ ringColor, segmentColor }}>
+        {({ ringColor, segmentColor }) => (
+          <circle
+            r='15.9'
+            cx='15.9'
+            cy='15.9'
+            fill={type === TYPE.RING ? centerColor : type === TYPE.PIE && 'transparent'}
+            stroke={type === TYPE.RING ? ringColor : type === TYPE.PIE && segmentColor}
+            strokeWidth={realStrokeWidth}
+          />
+        )}
+      </Spring>
 
       {/* segment */}
       <Spring to={{ percentage, segmentColor }}>

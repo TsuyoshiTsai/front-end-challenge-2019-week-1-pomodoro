@@ -91,6 +91,16 @@ function Timer (props) {
     setIsCounting(false)
   }
 
+  const onReset = event => {
+    if (isCounting) return
+
+    if (isBreaking) {
+      setBreakSeconds({ id, breakSeconds: 0 })
+    } else {
+      setWorkSeconds({ id, workSeconds: 0 })
+    }
+  }
+
   return (
     <>
       <Typography.Title level='h1' fontWeight={700} align='center' marginBottom={10}>
@@ -105,10 +115,9 @@ function Timer (props) {
           // 休息模式，底的顏色為綠色
           // 工作模式，底的顏色為灰色
           ringColor={isBreaking ? '#b5e254' : '#acacac'}
-          // 休息模式，而且在計時，轉的顏色為灰色
-          // 休息模式，沒有在計時，轉的顏色為綠色
+          // 休息模式，轉的顏色為灰色
           // 工作模式，轉的顏色為紅色
-          segmentColor={isBreaking ? (isCounting ? '#acacac' : '#b5e254') : '#ea5548'}
+          segmentColor={isBreaking ? '#acacac' : '#ea5548'}
           percentage={percentage}
           text={formatSeconds(seconds)}
         />
@@ -123,7 +132,7 @@ function Timer (props) {
           <Icon name='pause' mode='01' />
         </Button>
 
-        <Button shape='circle' htmlType='button'>
+        <Button shape='circle' htmlType='button' onClick={onReset}>
           <Icon name='arrow-round' mode='01' />
         </Button>
       </div>

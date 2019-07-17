@@ -43,8 +43,8 @@ function ClockGroup (props) {
           .fill()
         // 填滿工作結束的時鐘（滿）
           .map((empty, index) => <Chart key={index} type='pie' percentage={100} />)
-        // 最後加入一筆目前的百分比
-          .concat([<Chart key={workFinishCount} type='pie' percentage={percentage} />])
+        // 最後加入一筆目前的百分比，如果百分比等於零，就不顯示
+          .concat([percentage > 0 ? <Chart key={workFinishCount} type='pie' percentage={percentage} /> : null])
         : new Array(estimateClocks)
           .fill()
         // 先填滿所有估計的時鐘（空）

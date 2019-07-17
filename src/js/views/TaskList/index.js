@@ -108,7 +108,7 @@ function TaskList (props) {
           >
             <TaskModifier
               mode='edit'
-              initialValues={{ title: task.title, estimateClocks: getClocksOfWork(task.estimateSeconds) }}
+              initialValues={{ id: task.id, title: task.title, estimateClocks: getClocksOfWork(task.estimateSeconds) }}
               onSubmit={(values, actions) => onSubmit(values, actions, task)}
               onArchive={event => onArchive(event, task)}
               className={cx('task-list__task-modifier')}
