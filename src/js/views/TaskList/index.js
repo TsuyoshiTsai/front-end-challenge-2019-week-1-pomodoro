@@ -17,7 +17,7 @@ import styles from './style.module.scss'
 
 // Modules
 import { selectors, operations } from '../../lib/redux/modules/task'
-import { filterByArchived, filterByComplete, getSecondsOfWork } from '../../lib/redux/modules/task/utils'
+import { filterByArchived, filterByComplete, getClocksOfWork, getSecondsOfWork } from '../../lib/redux/modules/task/utils'
 
 // Variables / Functions
 const cx = classnames.bind(styles)
@@ -108,7 +108,7 @@ function TaskList (props) {
           >
             <TaskModifier
               mode='edit'
-              initialValues={{ title: task.title, estimateClocks: task.estimateClocks }}
+              initialValues={{ title: task.title, estimateClocks: getClocksOfWork(task.estimateSeconds) }}
               onSubmit={(values, actions) => onSubmit(values, actions, task)}
               onArchive={event => onArchive(event, task)}
               className={cx('task-list__task-modifier')}

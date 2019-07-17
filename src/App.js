@@ -61,7 +61,7 @@ function App (props) {
       <Layout.Content>
         <Layout height='100%'>
           <Layout.Content className={cx('app__main-content')}>
-            <Timer />
+            <Timer.Container />
           </Layout.Content>
           <Layout.Footer className={cx('app__main-footer')}>PODOMORO</Layout.Footer>
         </Layout>

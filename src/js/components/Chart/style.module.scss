@@ -1,12 +1,27 @@
 .chart {
-  transform: rotate(-90deg);
   width: 100%;
   border-radius: 50%;
 
+  &[data-is-flipped="true"] {
+    transform: rotate(-90deg) scale(-1, 1);
+  }
+
+  &[data-is-flipped="false"] {
+    transform: rotate(-90deg);
+  }
+
   &__number {
     fill: currentColor;
-    transform-origin: 50%;
     transform: rotate(90deg);
+    transform-origin: 50%;
     letter-spacing: 0.1em;
+
+    &[data-is-flipped="true"] {
+      transform: rotate(90deg) scale(1, -1);
+    }
+
+    &[data-is-flipped="false"] {
+      transform: rotate(90deg);
+    }
   }
 }

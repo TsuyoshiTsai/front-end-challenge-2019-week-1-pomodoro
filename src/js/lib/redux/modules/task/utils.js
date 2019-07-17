@@ -20,7 +20,7 @@ export const getClocksOfClock = (secondsOfClock, seconds) => Math.floor(seconds 
 export const getClocksOfWork = getClocksOfClock.bind(null, WORK_SECONDS_OF_CLOCK)
 export const getClocksOfBreak = getClocksOfClock.bind(null, BREAK_SECONDS_OF_CLOCK)
 
-export const getPassedSecondsOfClock = (secondsOfClock, seconds) => (seconds > 0 && seconds === secondsOfClock ? seconds : seconds % secondsOfClock)
+export const getPassedSecondsOfClock = (secondsOfClock, seconds) => seconds % secondsOfClock
 export const getPassedSecondsOfWork = getPassedSecondsOfClock.bind(null, WORK_SECONDS_OF_CLOCK)
 export const getPassedSecondsOfBreak = getPassedSecondsOfClock.bind(null, BREAK_SECONDS_OF_CLOCK)
 
@@ -28,11 +28,11 @@ export const getRemainingSecondsOfClock = (secondsOfClock, seconds) => secondsOf
 export const getRemainingSecondsOfWork = getRemainingSecondsOfClock.bind(null, WORK_SECONDS_OF_CLOCK)
 export const getRemainingSecondsOfBreak = getRemainingSecondsOfClock.bind(null, BREAK_SECONDS_OF_CLOCK)
 
-export const getPercentageOfClock = (secondsOfClock, seconds) => (getPassedSecondsOfClock(secondsOfClock, seconds) / secondsOfClock) * 100
-export const getPercentageOfWork = getPercentageOfClock.bind(null, WORK_SECONDS_OF_CLOCK)
-export const getPercentageOfBreak = getPercentageOfClock.bind(null, BREAK_SECONDS_OF_CLOCK)
+export const getPercentage = (secondsOfClock, seconds) => (getPassedSecondsOfWork(seconds) / secondsOfClock) * 100
+export const getPercentageOfWork = getPercentage.bind(null, WORK_SECONDS_OF_CLOCK)
+export const getPercentageOfBreak = getPercentage.bind(null, BREAK_SECONDS_OF_CLOCK)
 
-export const checkIsTimeoutOfClock = (secondsOfClock, seconds) => getPassedSecondsOfClock(secondsOfClock, seconds) >= secondsOfClock
+export const checkIsTimeoutOfClock = (secondsOfClock, seconds) => seconds > 0 && seconds === secondsOfClock
 export const checkIsTimeoutOfWork = checkIsTimeoutOfClock.bind(null, WORK_SECONDS_OF_CLOCK)
 export const checkIsTimeoutOfBreak = checkIsTimeoutOfClock.bind(null, BREAK_SECONDS_OF_CLOCK)
 

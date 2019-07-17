@@ -6,6 +6,8 @@ export const getList = (state, props) => state[MODULE_NAME].list
 
 export const getListBySorting = (state, { type = 'desc', ...props }) => sortByCreatedDateTime(getList(state, props), type)
 
+export const getItemById = (state, props) => getList(state, props).find(item => item.id === props.id)
+
 // status
 export const getStatusValue = (state, props) => state[MODULE_NAME].status[props.keyName]
 

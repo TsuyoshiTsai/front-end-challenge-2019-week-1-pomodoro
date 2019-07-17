@@ -38,9 +38,11 @@ function TaskAdd (props) {
       title: title.trim(),
       isArchived: false,
       isComplete: false,
+      isBreaking: false,
       estimateSeconds: getSecondsOfWork(estimateClocks),
       workSeconds: 0,
       breakSeconds: 0,
+      workHistory: [],
       createdDateTime,
       updatedDateTime: createdDateTime,
     }

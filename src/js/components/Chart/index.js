@@ -16,6 +16,7 @@ export const propTypes = {
   text: PropTypes.node,
   textFontSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   strokeWidth: PropTypes.number,
+  isFlipped: PropTypes.bool,
   ringColor: PropTypes.string,
   centerColor: PropTypes.string,
   segmentColor: PropTypes.string,
@@ -27,18 +28,19 @@ export const defaultProps = {
   percentage: 0,
   textFontSize: 40,
   strokeWidth: 50,
+  isFlipped: false,
   ringColor: '#acacac',
   centerColor: '#fcfcfc',
   segmentColor: '#ea5548',
 }
 
 function Chart (props) {
-  const { type, percentage, text, textFontSize, strokeWidth, ringColor, centerColor, segmentColor, className } = props
+  const { type, percentage, text, textFontSize, strokeWidth, isFlipped, ringColor, centerColor, segmentColor, className } = props
 
   const realStrokeWidth = Math.ceil(((strokeWidth / 100) * 32) / 1.5)
 
   return (
-    <svg className={cx('chart', className)} role='chart' viewBox='0 0 32 32'>
+    <svg className={cx('chart', className)} data-is-flipped={isFlipped} role='chart' viewBox='0 0 32 32'>
       {/* ring */}
       <circle
         r='15.9'
@@ -50,8 +52,8 @@ function Chart (props) {
       />
 
       {/* segment */}
-      <Spring to={{ percentage }}>
-        {({ percentage }) => (
+      <Spring to={{ percentage, segmentColor }}>
+        {({ percentage, segmentColor }) => (
           <circle
             r='15.9'
             cx='15.9'
@@ -68,6 +70,7 @@ function Chart (props) {
       {typeof text === 'string' && (
         <text
           className={cx('chart__number')}
+          data-is-flipped={isFlipped}
           x='50%'
           y='50%'
           fontSize={(textFontSize / 16) * 1.72}
