@@ -4,6 +4,7 @@ import classnames from 'classnames/bind'
 
 // Components
 import Content from './components/Content'
+import Footer from './components/Footer'
 import Sider from './components/Sider'
 
 // Style
@@ -35,6 +36,7 @@ function Layout (props) {
 Layout.propTypes = propTypes
 
 Layout.Content = Content
+Layout.Footer = Footer
 Layout.Sider = Sider
 
 export default Layout

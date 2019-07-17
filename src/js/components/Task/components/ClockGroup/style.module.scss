@@ -1,0 +1,30 @@
+.task-clock-group {
+  width: 100%;
+  font-size: $font-size-xs;
+  line-height: 1;
+  overflow: hidden;
+
+  &[data-size="sm"] > [role="chart"] {
+    width: 8px;
+
+    &:not(:first-child) {
+      margin-left: 3px;
+    }
+
+    &:not(:last-child) {
+      margin-right: 3px;
+    }
+  }
+
+  &[data-size="md"] > [role="chart"] {
+    width: 12px;
+
+    &:not(:first-child) {
+      margin-left: 5px;
+    }
+
+    &:not(:last-child) {
+      margin-right: 5px;
+    }
+  }
+}

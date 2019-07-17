@@ -9,6 +9,7 @@ import classnames from 'classnames/bind'
 import Icon from './js/components/Icon'
 import Layout from './js/components/Layout'
 import Menu from './js/components/Menu'
+import Timer from './js/components/Timer'
 
 // Images
 import TomatoSVG from './assets/images/icons/Tomato.svg'
@@ -57,11 +58,18 @@ function App (props) {
 
   return (
     <Layout className={cx('app')} height='100vh'>
-      <Layout.Content style={{ background: 'pink' }}>clock</Layout.Content>
+      <Layout.Content>
+        <Layout height='100%'>
+          <Layout.Content className={cx('app__main-content')}>
+            <Timer.Container />
+          </Layout.Content>
+          <Layout.Footer className={cx('app__main-footer')}>PODOMORO</Layout.Footer>
+        </Layout>
+      </Layout.Content>
 
       <Layout.Sider className={cx('app__sider')} isCollapsed={isSiderCollapsed} collapsedWidth={80} width={600}>
         <button className={cx('app__sider-collapse-toggler')} onClick={event => setIsSiderCollapsed(!isSiderCollapsed)}>
-          <img src={TomatoSVG} alt='tomato' />
+          <img width='25px' height='25px' src={TomatoSVG} alt='tomato' />
           <Icon name='arrow-right' mode='01' flipped={isSiderCollapsed ? 'horizontally' : 'vertically'} />
         </button>
 

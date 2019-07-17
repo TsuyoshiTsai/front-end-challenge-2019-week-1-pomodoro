@@ -8,10 +8,10 @@ $border-style: solid;
 // types
 $types: (
   default: (
-    filled-true-color: $gray-darkest,
+    filled-true-color: $gray-light,
     filled-true-color-activate: $color-primary,
-    filled-true-border-color: $gray-light,
-    filled-true-border-color-activate: $color-primary,
+    filled-true-border-color: transparent,
+    filled-true-border-color-activate: transparent,
     filled-true-background-color: $gray-white,
     filled-true-background-color-activate: $gray-white,
     filled-false-color: $gray-white,

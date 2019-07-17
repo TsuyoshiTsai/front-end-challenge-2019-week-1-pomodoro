@@ -6,6 +6,7 @@ import classnames from 'classnames/bind'
 import Collapse from '../Collapse'
 import Typography from '../Typography'
 import Group from './components/Group'
+import ClockGroup from './components/ClockGroup'
 
 // Style
 import styles from './style.module.scss'
@@ -17,9 +18,13 @@ export const propTypes = {
   task: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,
-    estimate: PropTypes.string,
     isArchived: PropTypes.bool,
     isComplete: PropTypes.bool,
+    isBreaking: PropTypes.bool,
+    estimateSeconds: PropTypes.number,
+    workSeconds: PropTypes.number,
+    breakSeconds: PropTypes.number,
+    workHistory: PropTypes.arrayOf(PropTypes.string),
     createdDateTime: PropTypes.string,
     updatedDateTime: PropTypes.string,
   }),
@@ -33,8 +38,10 @@ function Task (props) {
       className={cx('task')}
       header={
         <div className={cx('task__title-wrapper')}>
-          <Typography.Text className={cx('task__title')}>{task.title}</Typography.Text>
-          <div className={cx('task__estimate')}>{task.estimate}</div>
+          <Typography.Text className={cx('task__title')} isBlock>
+            {task.title}
+          </Typography.Text>
+          <ClockGroup estimateSeconds={task.estimateSeconds} workSeconds={task.workSeconds} workFinishCount={task.workHistory.length} />
         </div>
       }
       {...restProps}
@@ -45,5 +52,6 @@ function Task (props) {
 Task.propTypes = propTypes
 
 Task.Group = Group
+Task.ClockGroup = ClockGroup
 
 export default Task

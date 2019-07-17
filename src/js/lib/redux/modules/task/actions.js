@@ -17,4 +17,7 @@ import * as actionGetters from '../action-getters'
 import * as actionTypes from './actionTypes'
 
 export const addItemToList = actionGetters.addItemToList(actionTypes.ADD_ITEM_TO_LIST)
+
 export const updateItemInList = actionGetters.updateItemInList(actionTypes.UPDATE_ITEM_IN_LIST)
+
+export const setStatusValue = actionGetters.setItem(actionTypes.STATUS_SET_ITEM)

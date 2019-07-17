@@ -6,7 +6,7 @@ import classnames from 'classnames/bind'
 // Components
 import { withEmpty } from '../../components/Empty'
 import TaskModifier from '../../components/TaskModifier'
-import Task from '../../components/Task'
+import Task, { propTypes as TaskPropTypes } from '../../components/Task'
 import Typography from '../../components/Typography'
 import Radio from '../../components/Radio'
 import ArchiveModal from './components/ArchiveModal'
@@ -17,7 +17,7 @@ import styles from './style.module.scss'
 
 // Modules
 import { selectors, operations } from '../../lib/redux/modules/task'
-import { filterByArchived, filterByComplete } from '../../lib/redux/modules/task/utils'
+import { filterByArchived, filterByComplete, getClocksOfWork, getSecondsOfWork } from '../../lib/redux/modules/task/utils'
 
 // Variables / Functions
 const cx = classnames.bind(styles)
@@ -38,19 +38,14 @@ const filterByStatus = (tasks, status) => {
 }
 
 export const propTypes = {
-  tasks: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      estimate: PropTypes.string.isRequired,
-      createdDateTime: PropTypes.string.isRequired,
-    })
-  ),
+  tasks: PropTypes.arrayOf(TaskPropTypes.task),
+  isCounting: PropTypes.bool,
   editTask: PropTypes.func,
+  setCurrentId: PropTypes.func,
 }
 
 function TaskList (props) {
-  const { tasks, editTask } = props
+  const { tasks, isCounting, editTask, setCurrentId } = props
 
   const [filterStatus, setFilterStatus] = useState(tabs[0].value)
   const [currentTask, setCurrentTask] = useState(null)
@@ -70,7 +65,7 @@ function TaskList (props) {
 
     const item = {
       title: values.title.trim(),
-      estimate: values.estimate,
+      estimateSeconds: getSecondsOfWork(values.estimateClocks),
       updatedDateTime,
     }
 
@@ -104,10 +99,16 @@ function TaskList (props) {
 
       <TaskGroupWithEmpty source={filteredTasks} emptyComponent={Empty}>
         {filteredTasks.map((task, index) => (
-          <Task key={index} identify={task.id} task={task} isCollapsible={filterStatus === STATUS.UNCOMPLETE}>
+          <Task
+            key={index}
+            identify={task.id}
+            task={task}
+            isCollapsible={filterStatus === STATUS.UNCOMPLETE}
+            onClick={!isCounting && filterStatus === STATUS.UNCOMPLETE ? event => setCurrentId(task.id) : null}
+          >
             <TaskModifier
               mode='edit'
-              initialValues={{ title: task.title, estimate: task.estimate }}
+              initialValues={{ id: task.id, title: task.title, estimateClocks: getClocksOfWork(task.estimateSeconds) }}
               onSubmit={(values, actions) => onSubmit(values, actions, task)}
               onArchive={event => onArchive(event, task)}
               className={cx('task-list__task-modifier')}
@@ -124,11 +125,13 @@ TaskList.propTypes = propTypes
 const mapStateToProps = (state, props) => {
   return {
     tasks: selectors.getListBySorting(state, { sortBy: 'desc' }),
+    isCounting: selectors.getIsCounting(state, props),
   }
 }
 
 const mapDispatchToProps = {
   editTask: operations.updateItemInList,
+  setCurrentId: operations.setCurrentId,
 }
 
 export default connect(

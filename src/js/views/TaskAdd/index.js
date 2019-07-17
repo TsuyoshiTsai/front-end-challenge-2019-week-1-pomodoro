@@ -11,6 +11,7 @@ import Typography from '../../components/Typography'
 
 // Modules
 import { selectors, operations } from '../../lib/redux/modules/task'
+import { getSecondsOfWork } from '../../lib/redux/modules/task/utils'
 
 // Variables / Functions
 const TaskGroupWithEmpty = withEmpty(Task.Group)
@@ -24,9 +25,9 @@ export const propTypes = {
 function TaskAdd (props) {
   const { tasks, addTaskItem } = props
 
-  const initialValues = { title: '', estimate: '' }
+  const initialValues = { title: '', estimateClocks: 1 }
 
-  const onSubmit = ({ title, estimate }, actions) => {
+  const onSubmit = ({ title, estimateClocks }, actions) => {
     actions.resetForm(initialValues)
 
     const id = uuidv4()
@@ -35,9 +36,13 @@ function TaskAdd (props) {
     const item = {
       id,
       title: title.trim(),
-      estimate,
       isArchived: false,
       isComplete: false,
+      isBreaking: false,
+      estimateSeconds: getSecondsOfWork(estimateClocks),
+      workSeconds: 0,
+      breakSeconds: 0,
+      workHistory: [],
       createdDateTime,
       updatedDateTime: createdDateTime,
     }
