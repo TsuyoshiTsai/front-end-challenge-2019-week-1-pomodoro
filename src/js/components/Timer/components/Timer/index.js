@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classnames from 'classnames/bind'
@@ -9,6 +9,7 @@ import Chart from '../../../Chart'
 import Icon from '../../../Icon'
 import Task, { propTypes as TaskPropTypes } from '../../../Task'
 import Typography from '../../../Typography'
+import CompleteModal from '../CompleteModal'
 
 // Modules
 import { operations, selectors } from '../../../../lib/redux/modules/task'
@@ -48,6 +49,7 @@ function Timer (props) {
   const percentage = isBreaking ? getPercentageOfBreak(breakSeconds) : getPercentageOfWork(workSeconds)
   const seconds = isBreaking ? getRemainingSecondsOfBreak(breakSeconds) : getRemainingSecondsOfWork(workSeconds)
 
+  const [isModalOpened, setIsModalOpened] = useState(false)
   const timeoutId = useRef(null)
 
   useEffect(() => {
@@ -99,6 +101,8 @@ function Timer (props) {
 
   return (
     <>
+      <CompleteModal isOpened={isModalOpened} onClose={event => setIsModalOpened(false)} />
+
       <Typography.Title level='h1' fontWeight={700} align='center' marginBottom={10}>
         {title}
       </Typography.Title>
@@ -142,7 +146,14 @@ function Timer (props) {
 
       <div className={cx('timer__complete-button-wrapper')}>
         <button className={cx('timer__complete-button')} type='button' onClick={null}>
-          <Typography.Text prefix={<img src={CheckSVG} alt='complete' />} prefixMarginRight={5} lineHeight={1} letterSpacing='.1em' fontWeight={700}>
+          <Typography.Text
+            prefix={<img src={CheckSVG} alt='complete' />}
+            prefixMarginRight={5}
+            lineHeight={1}
+            letterSpacing='.1em'
+            fontWeight={700}
+            onClick={event => setIsModalOpened(true)}
+          >
             TASK COMPLETE
           </Typography.Text>
         </button>

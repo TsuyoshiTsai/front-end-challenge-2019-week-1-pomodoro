@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import classnames from 'classnames/bind'
 
@@ -38,6 +39,8 @@ const filterByStatus = (tasks, status) => {
 }
 
 export const propTypes = {
+  match: PropTypes.object,
+  history: PropTypes.object,
   tasks: PropTypes.arrayOf(TaskPropTypes.task),
   currentTaskId: PropTypes.string,
   isCounting: PropTypes.bool,
@@ -46,16 +49,10 @@ export const propTypes = {
 }
 
 function TaskList (props) {
-  const { tasks, currentTaskId, isCounting, editTask, setCurrentId } = props
+  const { match, history, tasks, currentTaskId, isCounting, editTask, setCurrentId } = props
+  const { path, url } = match
 
   const [filterStatus, setFilterStatus] = useState(tabs[0].value)
-  const [currentTask, setCurrentTask] = useState(null)
-  const [isModalOpened, setIsModalOpened] = useState(false)
-
-  const onModalClose = event => {
-    setIsModalOpened(false)
-    setCurrentTask(null)
-  }
 
   const onRadioChange = (event, value) => setFilterStatus(value)
 
@@ -73,16 +70,13 @@ function TaskList (props) {
     editTask({ keyName: 'id', key: task.id, item })
   }
 
-  const onArchive = (event, task) => {
-    setIsModalOpened(true)
-    setCurrentTask(task)
-  }
-
   const filteredTasks = filterByStatus(tasks, filterStatus)
 
   return (
     <div className={cx('task-list')}>
-      <ArchiveModal isOpened={isModalOpened} onClose={onModalClose} task={currentTask} />
+      <Route strict sensetive exact path={`${url}/:id`}>
+        {({ staticContext, ...props }) => <ArchiveModal isOpened={props.match !== null} afterClose={() => history.push(path)} {...props} />}
+      </Route>
 
       <Typography.Title level='h1' color='white' marginBottom={0} letterSpacing='.1em'>
         TASK LISTS
@@ -112,7 +106,7 @@ function TaskList (props) {
               mode='edit'
               initialValues={{ id: task.id, title: task.title, estimateClocks: getClocksOfWork(task.estimateSeconds) }}
               onSubmit={(values, actions) => onSubmit(values, actions, task)}
-              onArchive={event => onArchive(event, task)}
+              onArchive={event => history.push(`${path}/${task.id}`)}
               className={cx('task-list__task-modifier')}
             />
           </Task>

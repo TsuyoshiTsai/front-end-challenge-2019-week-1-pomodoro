@@ -14,6 +14,11 @@ export const archiveTask = ({ id }) => (dispatch, getStatus) => {
   dispatch(setCurrentId(null))
 }
 
+export const completeTask = ({ id }) => (dispatch, getStatus) => {
+  dispatch(updateItemInList({ keyName: 'id', key: id, item: { isComplete: true } }))
+  dispatch(setCurrentId(null))
+}
+
 export const addWorkHistory = ({ id, finishDateTime }) => (dispatch, getStatus) => {
   dispatch(updateItemInList({ keyName: 'id', key: id, item: { workHistory: [...getItemById(getStatus(), { id }).workHistory, finishDateTime] } }))
 }
