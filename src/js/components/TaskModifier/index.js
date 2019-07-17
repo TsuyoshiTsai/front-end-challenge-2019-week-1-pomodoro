@@ -5,7 +5,7 @@ import { Formik, Field } from 'formik'
 
 // Components
 import Button from '../Button'
-import Form from '../Form'
+import Form, { VALIDATE_STATUS } from '../Form'
 import { propTypes as TaskPropTypes } from '../Task'
 
 // Lib MISC
@@ -35,7 +35,7 @@ function TaskModifier (props) {
 
   return (
     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-      {({ values, isValid, isSubmitting }) => {
+      {({ touched, errors, values, isValid, isSubmitting }) => {
         return (
           <Form {...restProps}>
             <Form.InputField
@@ -48,7 +48,16 @@ function TaskModifier (props) {
 
             <Form.Group style={{ marginBottom: isAdd ? 50 : isEdit && 20 }}>
               <Form.Label style={{ marginBottom: isEdit && 5, fontSize: isEdit && 12 }}>ESTIMATE TOMATO</Form.Label>
-              <Field name='estimateClocks' type='number' style={{ height: isEdit && 40 }} />
+              <Field name='estimateClocks' style={{ height: isEdit && 40 }}>
+                {({ field }) => (
+                  <>
+                    <input {...field} type='number' />
+                    <Form.Help isShowed={touched[field.name] && errors[field.name]} validateStatus={VALIDATE_STATUS.ERROR}>
+                      {errors[field.name]}
+                    </Form.Help>
+                  </>
+                )}
+              </Field>
             </Form.Group>
 
             {isAdd ? (

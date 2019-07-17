@@ -15,6 +15,7 @@ const cx = classnames.bind(styles)
 export const propTypes = {
   activeIdentifies: PropTypes.arrayOf(PanelPropTypes.identify),
   defaultActiveIdentifies: PropTypes.arrayOf(PanelPropTypes.identify),
+  isAccordion: PropTypes.bool,
   onCollapse: PropTypes.func,
   className: PropTypes.string,
   children: PropTypes.any,
@@ -23,7 +24,15 @@ export const propTypes = {
 export const defaultProps = {}
 
 function Collapse (props) {
-  const { activeIdentifies: propsIdentifies, defaultActiveIdentifies, onCollapse: propsOnCollapse, className, children, ...restProps } = props
+  const {
+    activeIdentifies: propsIdentifies,
+    defaultActiveIdentifies,
+    isAccordion,
+    onCollapse: propsOnCollapse,
+    className,
+    children,
+    ...restProps
+  } = props
 
   const hasPropsOnCollapse = typeof propsOnCollapse === 'function'
   const hasPropsIdentifies = Array.isArray(propsIdentifies)
@@ -51,7 +60,7 @@ function Collapse (props) {
     if (activeIdentifies.includes(identify)) {
       newIdentifies = activeIdentifies.filter(activeIdentify => activeIdentify !== identify)
     } else {
-      newIdentifies = [...activeIdentifies, identify]
+      newIdentifies = isAccordion ? [identify] : [...activeIdentifies, identify]
     }
 
     handleCollapse(event, newIdentifies)

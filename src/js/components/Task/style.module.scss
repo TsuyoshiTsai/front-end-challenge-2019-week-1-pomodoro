@@ -7,10 +7,17 @@
   }
 
   &__title-wrapper {
+    position: relative;
     padding: 8px 0;
     display: flex;
     flex-direction: column;
     @include size(100%);
+  }
+
+  &__prefix-image {
+    @include position-center-over-left;
+    @include size(13px);
+    left: -13px;
   }
 
   &__title {

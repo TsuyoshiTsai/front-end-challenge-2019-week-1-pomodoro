@@ -17,7 +17,7 @@ export const propTypes = {
 function Group (props) {
   const { className, ...restProps } = props
 
-  return <Collapse className={cx('task-group', className)} {...restProps} />
+  return <Collapse className={cx('task-group', className)} isAccordion {...restProps} />
 }
 
 Group.propTypes = propTypes

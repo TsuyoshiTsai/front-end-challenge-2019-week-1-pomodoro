@@ -8,6 +8,9 @@ import Typography from '../Typography'
 import Group from './components/Group'
 import ClockGroup from './components/ClockGroup'
 
+// Assets
+import TomatoSVG from '../../../assets/images/icons/Tomato.svg'
+
 // Style
 import styles from './style.module.scss'
 
@@ -15,6 +18,7 @@ import styles from './style.module.scss'
 const cx = classnames.bind(styles)
 
 export const propTypes = {
+  isCurrent: PropTypes.bool,
   task: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,
@@ -31,13 +35,14 @@ export const propTypes = {
 }
 
 function Task (props) {
-  const { task, ...restProps } = props
+  const { isCurrent, task, ...restProps } = props
 
   return (
     <Collapse.Panel
       className={cx('task')}
       header={
         <div className={cx('task__title-wrapper')}>
+          {isCurrent && <img className={cx('task__prefix-image')} src={TomatoSVG} alt='tomato' />}
           <Typography.Text className={cx('task__title')} isBlock>
             {task.title}
           </Typography.Text>

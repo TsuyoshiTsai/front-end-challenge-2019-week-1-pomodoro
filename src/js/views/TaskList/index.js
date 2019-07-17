@@ -39,13 +39,14 @@ const filterByStatus = (tasks, status) => {
 
 export const propTypes = {
   tasks: PropTypes.arrayOf(TaskPropTypes.task),
+  currentTaskId: PropTypes.string,
   isCounting: PropTypes.bool,
   editTask: PropTypes.func,
   setCurrentId: PropTypes.func,
 }
 
 function TaskList (props) {
-  const { tasks, isCounting, editTask, setCurrentId } = props
+  const { tasks, currentTaskId, isCounting, editTask, setCurrentId } = props
 
   const [filterStatus, setFilterStatus] = useState(tabs[0].value)
   const [currentTask, setCurrentTask] = useState(null)
@@ -103,6 +104,7 @@ function TaskList (props) {
             key={index}
             identify={task.id}
             task={task}
+            isCurrent={currentTaskId === task.id}
             isCollapsible={filterStatus === STATUS.UNCOMPLETE}
             onClick={!isCounting && filterStatus === STATUS.UNCOMPLETE ? event => setCurrentId(task.id) : null}
           >
@@ -125,6 +127,7 @@ TaskList.propTypes = propTypes
 const mapStateToProps = (state, props) => {
   return {
     tasks: selectors.getListBySorting(state, { sortBy: 'desc' }),
+    currentTaskId: selectors.getCurrentId(state, props),
     isCounting: selectors.getIsCounting(state, props),
   }
 }
