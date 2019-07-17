@@ -76,7 +76,6 @@ function Timer (props) {
   }, [id, isBreaking, workSeconds, breakSeconds, isCounting, setWorkSeconds, setBreakSeconds, addWorkHistory, setIsBreaking, setIsCounting])
 
   const onPlay = event => {
-    if (isCounting) return
     if (!isBreaking && checkIsTimeoutOfWork(workSeconds)) return
     if (isBreaking && checkIsTimeoutOfBreak(breakSeconds)) return
 
@@ -84,7 +83,6 @@ function Timer (props) {
   }
 
   const onPause = event => {
-    if (!isCounting) return
     if (!isBreaking && checkIsTimeoutOfWork(workSeconds)) return
     if (isBreaking && checkIsTimeoutOfBreak(breakSeconds)) return
 
@@ -92,8 +90,6 @@ function Timer (props) {
   }
 
   const onReset = event => {
-    if (isCounting) return
-
     if (isBreaking) {
       setBreakSeconds({ id, breakSeconds: 0 })
     } else {
@@ -124,15 +120,22 @@ function Timer (props) {
       </div>
 
       <div className={cx('timer__action-list')}>
-        <Button shape='circle' htmlType='button' onClick={onPlay}>
+        <Button className={cx('timer__action-item')} data-name='START' shape='circle' htmlType='button' disabled={isCounting} onClick={onPlay}>
           <Icon name='play' mode='01' />
         </Button>
 
-        <Button shape='circle' htmlType='button' onClick={onPause}>
+        <Button className={cx('timer__action-item')} data-name='PAUSE' shape='circle' htmlType='button' disabled={!isCounting} onClick={onPause}>
           <Icon name='pause' mode='01' />
         </Button>
 
-        <Button shape='circle' htmlType='button' onClick={onReset}>
+        <Button
+          className={cx('timer__action-item')}
+          data-name='RESET'
+          shape='circle'
+          htmlType='button'
+          disabled={isCounting || percentage === 0}
+          onClick={onReset}
+        >
           <Icon name='arrow-round' mode='01' />
         </Button>
       </div>
