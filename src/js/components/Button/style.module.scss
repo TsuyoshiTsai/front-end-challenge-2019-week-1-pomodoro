@@ -129,11 +129,8 @@ $disabled-background-color: $gray-light;
   @each $size, $styles in $sizes {
     &[data-size="#{$size}"] {
       height: map-get($styles, height);
-
-      &[data-is-block="false"] {
-        padding: 0 map-get($styles, padding-horizontal);
-        font-size: map-get($styles, font-size);
-      }
+      padding: 0 map-get($styles, padding-horizontal);
+      font-size: map-get($styles, font-size);
     }
   }
 

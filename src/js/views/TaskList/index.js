@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import classnames from 'classnames/bind'
 
 // Components
+import Button from '../../components/Button'
 import { withEmpty } from '../../components/Empty'
 import TaskModifier from '../../components/TaskModifier'
 import Task, { propTypes as TaskPropTypes } from '../../components/Task'
@@ -45,11 +46,13 @@ export const propTypes = {
   currentTaskId: PropTypes.string,
   isCounting: PropTypes.bool,
   editTask: PropTypes.func,
+  uncompleteTask: PropTypes.func,
+  unarchiveTask: PropTypes.func,
   setCurrentId: PropTypes.func,
 }
 
 function TaskList (props) {
-  const { match, history, tasks, currentTaskId, isCounting, editTask, setCurrentId } = props
+  const { match, history, tasks, currentTaskId, isCounting, editTask, uncompleteTask, unarchiveTask, setCurrentId } = props
   const { path, url } = match
 
   const [filterStatus, setFilterStatus] = useState(tabs[0].value)
@@ -71,6 +74,45 @@ function TaskList (props) {
   }
 
   const filteredTasks = filterByStatus(tasks, filterStatus)
+
+  const renderCollapseContent = task => {
+    switch (filterStatus) {
+      case STATUS.UNCOMPLETE:
+        return (
+          <TaskModifier
+            mode='edit'
+            initialValues={{ id: task.id, title: task.title, estimateClocks: getClocksOfWork(task.estimateSeconds) }}
+            onSubmit={(values, actions) => onSubmit(values, actions, task)}
+            onArchive={event => history.push(`${path}/${task.id}`)}
+          />
+        )
+
+      case STATUS.COMPLETE:
+        return (
+          <div style={{ display: 'flex' }}>
+            <Button type='gray' size='sm' shape='rounded' onClick={event => history.push(`${url}/${task.id}`)}>
+              ARCHIVE
+            </Button>
+            <Button
+              type='primary'
+              size='sm'
+              shape='rounded'
+              onClick={event => uncompleteTask({ id: task.id })}
+              style={{ flexGrow: 1, marginLeft: 20 }}
+            >
+              REDO
+            </Button>
+          </div>
+        )
+
+      case STATUS.ARCHIVED:
+        return (
+          <Button type='gray' size='sm' shape='rounded' onClick={event => unarchiveTask({ id: task.id })} isBlock>
+            UNARCHIVE
+          </Button>
+        )
+    }
+  }
 
   return (
     <div className={cx('task-list')}>
@@ -99,16 +141,9 @@ function TaskList (props) {
             identify={task.id}
             task={task}
             isCurrent={currentTaskId === task.id}
-            isCollapsible={filterStatus === STATUS.UNCOMPLETE}
             onClick={!isCounting && filterStatus === STATUS.UNCOMPLETE ? event => setCurrentId(task.id) : null}
           >
-            <TaskModifier
-              mode='edit'
-              initialValues={{ id: task.id, title: task.title, estimateClocks: getClocksOfWork(task.estimateSeconds) }}
-              onSubmit={(values, actions) => onSubmit(values, actions, task)}
-              onArchive={event => history.push(`${path}/${task.id}`)}
-              className={cx('task-list__task-modifier')}
-            />
+            <div className={cx('task-list__action-list')}>{renderCollapseContent(task)}</div>
           </Task>
         ))}
       </TaskGroupWithEmpty>
@@ -128,6 +163,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
   editTask: operations.updateItemInList,
+  uncompleteTask: operations.uncompleteTask,
+  unarchiveTask: operations.unarchiveTask,
   setCurrentId: operations.setCurrentId,
 }
 

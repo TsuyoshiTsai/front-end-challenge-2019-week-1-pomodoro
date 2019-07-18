@@ -83,7 +83,7 @@ function TaskModifier (props) {
                     htmlType='submit'
                     size='sm'
                     shape='rounded'
-                    style={{ flexGrow: 1, marginLeft: 40 }}
+                    style={{ flexGrow: 1, marginLeft: 20 }}
                     disabled={!isValid || isSubmitting}
                   >
                     SAVE
