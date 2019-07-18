@@ -1,0 +1,6 @@
+.ring-tone {
+  &__item-prefix {
+    margin: 18px 14px;
+    @include size(12px);
+  }
+}

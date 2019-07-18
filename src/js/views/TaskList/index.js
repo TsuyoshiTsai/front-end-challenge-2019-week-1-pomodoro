@@ -115,7 +115,7 @@ function TaskList (props) {
   }
 
   return (
-    <div className={cx('task-list')}>
+    <>
       <Route strict sensetive exact path={`${url}/:id`}>
         {({ staticContext, ...props }) => <ArchiveModal isOpened={props.match !== null} afterClose={() => history.push(path)} {...props} />}
       </Route>
@@ -147,7 +147,7 @@ function TaskList (props) {
           </Task>
         ))}
       </TaskGroupWithEmpty>
-    </div>
+    </>
   )
 }
 
