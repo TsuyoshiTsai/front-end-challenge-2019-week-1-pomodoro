@@ -19,7 +19,7 @@ import styles from './style.module.scss'
 
 // Modules
 import { selectors, operations } from '../../lib/redux/modules/task'
-import { filterByArchived, filterByComplete, getClocksOfWork, getSecondsOfWork } from '../../lib/redux/modules/task/utils'
+import { sortByCreatedDateTime, filterByArchived, filterByComplete, getClocksOfWork, getSecondsOfWork } from '../../lib/redux/modules/task/utils'
 
 // Variables / Functions
 const cx = classnames.bind(styles)
@@ -73,7 +73,7 @@ function TaskList (props) {
     editTask({ keyName: 'id', key: task.id, item })
   }
 
-  const filteredTasks = filterByStatus(tasks, filterStatus)
+  const filteredTasks = sortByCreatedDateTime(filterByStatus(tasks, filterStatus), 'desc')
 
   const renderCollapseContent = task => {
     switch (filterStatus) {
@@ -155,7 +155,7 @@ TaskList.propTypes = propTypes
 
 const mapStateToProps = (state, props) => {
   return {
-    tasks: selectors.getListBySorting(state, { sortBy: 'desc' }),
+    tasks: selectors.getList(state, props),
     currentTaskId: selectors.getCurrentId(state, props),
     isCounting: selectors.getIsCounting(state, props),
   }

@@ -2,7 +2,15 @@
 // If the operation only dispatches a single action — forward the action creator function.
 // If the operation uses a thunk, it can dispatch many actions and chain them with promises.
 import * as actions from './actions'
-import { getItemById } from './selectors'
+import { getList, getItemById } from './selectors'
+import { sortByCreatedDateTime, filterByArchived, filterByComplete } from './utils'
+
+const getNextTaskId = (currentId, list) =>
+  (
+    sortByCreatedDateTime(filterByComplete(filterByArchived(getList(list).filter(task => task.id !== currentId), false), false), 'desc')[0] || {
+      id: null,
+    }
+  ).id
 
 // list
 export const addItemToList = actions.addItemToList
@@ -11,14 +19,14 @@ export const updateItemInList = actions.updateItemInList
 
 export const archiveTask = ({ id }) => (dispatch, getStatus) => {
   dispatch(updateItemInList({ keyName: 'id', key: id, item: { isArchived: true } }))
-  dispatch(setCurrentId(null))
+  dispatch(setCurrentId(getNextTaskId(id, getStatus())))
 }
 
 export const unarchiveTask = ({ id }) => updateItemInList({ keyName: 'id', key: id, item: { isArchived: false } })
 
 export const completeTask = ({ id }) => (dispatch, getStatus) => {
   dispatch(updateItemInList({ keyName: 'id', key: id, item: { isComplete: true } }))
-  dispatch(setCurrentId(null))
+  dispatch(setCurrentId(getNextTaskId(id, getStatus())))
 }
 
 export const uncompleteTask = ({ id }) => updateItemInList({ keyName: 'id', key: id, item: { isComplete: false } })

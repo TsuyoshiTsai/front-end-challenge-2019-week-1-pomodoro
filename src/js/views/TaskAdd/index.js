@@ -11,7 +11,7 @@ import Typography from '../../components/Typography'
 
 // Modules
 import { selectors, operations } from '../../lib/redux/modules/task'
-import { getSecondsOfWork } from '../../lib/redux/modules/task/utils'
+import { sortByCreatedDateTime, getSecondsOfWork } from '../../lib/redux/modules/task/utils'
 
 // Variables / Functions
 const TaskGroupWithEmpty = withEmpty(Task.Group)
@@ -31,7 +31,7 @@ function TaskAdd (props) {
     actions.resetForm(initialValues)
 
     const id = uuidv4()
-    const createdDateTime = new Date().toString()
+    const createdDateTime = new Date().getTime()
 
     const item = {
       id,
@@ -69,7 +69,7 @@ function TaskAdd (props) {
       <TaskGroupWithEmpty source={tasks} emptyProps={{ description: 'No Tasks' }}>
         {tasks.map((task, index) => (
           <Task key={index} task={task} isCollapsible={false}>
-            {task.title} {task.createdDateTime}
+            {task.title}
           </Task>
         ))}
       </TaskGroupWithEmpty>
@@ -81,7 +81,7 @@ TaskAdd.propTypes = propTypes
 
 const mapStateToProps = (state, props) => {
   return {
-    tasks: selectors.getListBySorting(state, { sortBy: 'desc' }).slice(0, COUNT),
+    tasks: sortByCreatedDateTime(selectors.getList(state, props), 'desc').slice(0, COUNT),
   }
 }
 

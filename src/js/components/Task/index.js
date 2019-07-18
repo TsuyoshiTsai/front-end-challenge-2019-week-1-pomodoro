@@ -29,8 +29,8 @@ export const propTypes = {
     workSeconds: PropTypes.number,
     breakSeconds: PropTypes.number,
     workHistory: PropTypes.arrayOf(PropTypes.string),
-    createdDateTime: PropTypes.string,
-    updatedDateTime: PropTypes.string,
+    createdDateTime: PropTypes.number,
+    updatedDateTime: PropTypes.number,
   }),
 }
 
