@@ -139,7 +139,7 @@ function RingTone (props) {
         SECONDS SETTING
       </Typography.Title>
       <Typography.Title level='h5' color='gray-light' marginBottom={0} letterSpacing='.1em'>
-        ** You must reload page to applying settings. **
+        ** You must reload page to apply settings. **
       </Typography.Title>
 
       <Typography.Hr marginTop={25} marginBottom={25} />

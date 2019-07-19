@@ -125,7 +125,15 @@ function Timer (props) {
         {title}
       </Typography.Title>
 
-      <Task.ClockGroup size='md' align='center' estimateSeconds={estimateSeconds} workSeconds={workSeconds} workFinishCount={workHistory.length} />
+      {isBreaking ? (
+        <div className={cx('timer__break-label-wrapper')}>
+          <Typography.Text className={cx('timer__break-label')} color='white' fontSize={10} lineHeight={1.4}>
+            BREAK
+          </Typography.Text>
+        </div>
+      ) : (
+        <Task.ClockGroup size='md' align='center' estimateSeconds={estimateSeconds} workSeconds={workSeconds} workFinishCount={workHistory.length} />
+      )}
 
       <div className={cx('timer__chart-wrapper')}>
         <Chart

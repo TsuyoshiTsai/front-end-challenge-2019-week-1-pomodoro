@@ -1,4 +1,15 @@
 .timer {
+  &__break-label-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__break-label {
+    padding: 0 16px;
+    border-radius: 8px;
+    background-color: $color-green-light;
+  }
+
   &__chart-wrapper {
     margin: 50px 0;
     display: flex;
