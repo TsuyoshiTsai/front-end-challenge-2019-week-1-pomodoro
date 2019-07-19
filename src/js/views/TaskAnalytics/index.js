@@ -78,15 +78,22 @@ function TaskAnalytics (props) {
       <div className={cx('task-analytics__chart-wrapper')}>
         <div className={cx('task-analytics__panel', 'task-analytics__chart')}>
           <div className={cx('task-analytics__grid')}>
-            {periodInterval.map((date, index) => (
-              <div key={index} className={cx('task-analytics__count-wrapper')}>
-                {histories
-                  .filter(time => isSameDate(time, date))
-                  .map((time, index) => (
+            {periodInterval.map((date, index) => {
+              const dateHistories = histories.filter(time => isSameDate(time, date))
+
+              return (
+                <div key={index} className={cx('task-analytics__count-wrapper')}>
+                  {dateHistories.length > 0 && (
+                    <Typography.Text color='primary' lineHeight={1} fontWeight={700} align='center' marginBottom={5}>
+                      {dateHistories.length}
+                    </Typography.Text>
+                  )}
+                  {dateHistories.map((time, index) => (
                     <span key={index} className={cx('task-analytics__count')} />
                   ))}
-              </div>
-            ))}
+                </div>
+              )
+            })}
           </div>
         </div>
 

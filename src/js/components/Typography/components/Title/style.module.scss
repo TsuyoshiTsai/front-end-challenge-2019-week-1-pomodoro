@@ -28,6 +28,8 @@ $levels: (
 
 .typography-title {
   width: 100%;
+  word-break: break-all;
+  word-wrap: break-word;
 
   @each $level, $styles in $levels {
     &[data-level="#{$level}"] {

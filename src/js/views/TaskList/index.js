@@ -62,12 +62,10 @@ function TaskList (props) {
   const onSubmit = (values, actions, task) => {
     actions.resetForm(values)
 
-    const updatedDateTime = new Date().getTime()
-
     const item = {
       title: values.title.trim(),
       estimateSeconds: getSecondsOfWork(values.estimateClocks),
-      updatedDateTime,
+      updatedDateTime: new Date().getTime(),
     }
 
     editTask({ keyName: 'id', key: task.id, item })

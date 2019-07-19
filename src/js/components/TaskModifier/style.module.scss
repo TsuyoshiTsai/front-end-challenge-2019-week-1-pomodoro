@@ -7,7 +7,7 @@
   &__rate {
     cursor: pointer;
     filter: grayscale(150%);
-    transition: filter, transform 200ms $transition-mode;
+    transition: all 400ms $transition-mode;
 
     &[data-is-filled="true"],
     &:hover {
