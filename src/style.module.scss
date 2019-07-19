@@ -18,6 +18,7 @@
   &__sider {
     position: relative;
     display: flex;
+    overflow: auto;
   }
 
   &__sider-collapse-toggler {
@@ -44,6 +45,7 @@
   &__sider-main {
     padding: 30px 34px;
     width: 100%;
+    overflow: auto;
     display: flex;
     flex-direction: column;
     color: $gray-white;
