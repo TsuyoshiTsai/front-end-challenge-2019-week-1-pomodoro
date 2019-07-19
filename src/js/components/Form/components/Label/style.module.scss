@@ -1,0 +1,23 @@
+$margin-bottom: 10px;
+
+$color: $gray-light;
+$font-size: $font-size-sm;
+$font-weight: 700;
+
+.form-label {
+  margin-bottom: $margin-bottom;
+  line-height: 1;
+  color: $color;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  word-break: break-all;
+
+  &[data-is-block="true"] {
+    display: block;
+    width: 100%;
+  }
+
+  &[data-is-block="false"] {
+    display: inline-block;
+  }
+}

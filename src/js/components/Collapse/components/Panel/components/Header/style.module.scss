@@ -1,0 +1,24 @@
+$padding-vertical: 9px;
+$padding-horizontal: 40px;
+
+$font-size: $font-size-sm;
+
+$icon-right: 10px;
+
+.collapse-panel-header {
+  padding: $padding-vertical $padding-horizontal;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: $font-size;
+
+  &[data-is-collapsible="true"] {
+    cursor: pointer;
+  }
+
+  &__icon {
+    position: absolute;
+    right: $icon-right;
+  }
+}

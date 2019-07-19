@@ -1,0 +1,19 @@
+$font-size: $font-size-xs;
+
+$statuses: (
+  error: (
+    color: $color-danger
+  )
+);
+
+.form-help {
+  position: absolute;
+  line-height: 1;
+  font-size: $font-size;
+
+  @each $status, $style in $statuses {
+    &[data-status="#{$status}"] {
+      color: map-get($style, color);
+    }
+  }
+}

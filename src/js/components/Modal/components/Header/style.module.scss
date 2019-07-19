@@ -1,0 +1,25 @@
+$padding-top: 50px;
+$padding-bottom: 20px;
+$padding-horizontal: 75px;
+
+$icon-size: 20px;
+$icon-margin-horizontal: 24px;
+
+$font-size: $font-size-xs * 2;
+$font-weight: 700;
+
+$border-width: 1px;
+$border-style: solid;
+$border-color: transparent;
+
+.modal-header {
+  flex-shrink: 0;
+  position: relative;
+  padding: $padding-top ($icon-size + $icon-margin-horizontal + 8px) $padding-bottom $padding-horizontal;
+  display: flex;
+  align-items: center;
+  line-height: 1.25;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  border-bottom: $border-width $border-style $border-color;
+}

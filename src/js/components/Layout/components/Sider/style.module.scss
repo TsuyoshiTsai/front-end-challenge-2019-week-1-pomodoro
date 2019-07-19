@@ -1,0 +1,9 @@
+$background-color: $gray-darkest;
+
+.layout-sider {
+  flex-shrink: 0;
+  z-index: 1;
+  position: relative;
+  min-width: 0; /* fix firefox can't set width smaller than content on flex item */
+  background-color: $background-color;
+}

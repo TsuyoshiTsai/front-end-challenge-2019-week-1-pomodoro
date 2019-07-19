@@ -1,0 +1,6 @@
+.radio-input {
+  z-index: -1;
+  opacity: 0;
+  @include full-fill;
+  @include size(100%);
+}

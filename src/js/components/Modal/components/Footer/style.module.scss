@@ -1,0 +1,21 @@
+$padding-top: 30px;
+$padding-bottom: 50px;
+$padding-horizontal: 75px;
+
+$border-width: 1px;
+$border-style: solid;
+$border-color: transparent;
+
+$button-margin-left: 20px;
+
+.modal-footer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: $padding-top $padding-horizontal $padding-bottom $padding-horizontal;
+  border-top: $border-width $border-style $border-color;
+
+  > [role="button"] + [role="button"] {
+    margin-left: $button-margin-left;
+  }
+}

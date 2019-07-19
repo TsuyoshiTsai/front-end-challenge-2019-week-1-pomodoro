@@ -1,0 +1,72 @@
+.task-analytics {
+  &__panel {
+    border-radius: 2px;
+    background-color: $gray-darker;
+  }
+
+  &__row {
+    padding: 15px 0;
+    display: flex;
+  }
+
+  &__column {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &:first-of-type {
+      border-right: 1px solid $gray;
+    }
+  }
+
+  &__chart-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  &__chart {
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  &__grid {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  &__count-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 25px;
+  }
+
+  &__count {
+    margin-top: 1px;
+    display: inline-block;
+    height: 8px;
+    border-radius: 5px;
+    background-color: $color-primary;
+  }
+
+  &__week {
+    margin-top: 10px;
+  }
+
+  &__date {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__navigation-wrapper {
+    margin: 30px 0;
+    display: flex;
+    justify-content: space-between;
+  }
+}

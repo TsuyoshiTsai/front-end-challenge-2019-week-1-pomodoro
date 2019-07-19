@@ -1,0 +1,170 @@
+$letter-spacing: 0.1em;
+$font-weight: 900;
+
+$border-width: 2px;
+$border-style: solid;
+
+// ---
+// types
+$types: (
+  default: (
+    filled-true-color: $gray-light,
+    filled-true-color-activate: $gray-lighter,
+    filled-true-border-color: transparent,
+    filled-true-border-color-activate: transparent,
+    filled-true-background-color: $gray-white,
+    filled-true-background-color-activate: $gray-white,
+    filled-false-color: $color-primary,
+    filled-false-color-activate: $color-primary-dark,
+    filled-false-border-color: currentColor
+  ),
+  primary: (
+    filled-true-color: $gray-white,
+    filled-true-color-activate: $gray-white,
+    filled-true-border-color: transparent,
+    filled-true-border-color-activate: transparent,
+    filled-true-background-color: $color-primary,
+    filled-true-background-color-activate: $color-primary-dark,
+    filled-false-color: $color-primary,
+    filled-false-color-activate: $color-primary-dark,
+    filled-false-border-color: currentColor
+  ),
+  gray: (
+    filled-true-color: $gray-white,
+    filled-true-color-activate: $gray-white,
+    filled-true-border-color: transparent,
+    filled-true-border-color-activate: transparent,
+    filled-true-background-color: $gray-dark,
+    filled-true-background-color-activate: $gray,
+    filled-false-color: $gray-dark,
+    filled-false-color-activate: $gray,
+    filled-false-border-color: currentColor
+  )
+);
+
+// sizes
+$sizes: (
+  sm: (
+    padding-horizontal: 15px,
+    height: 40px,
+    font-size: $font-size-xs
+  ),
+  md: (
+    padding-horizontal: 20px,
+    height: 50px,
+    font-size: $font-size-sm
+  )
+);
+
+// shapes
+$shapes: (
+  radius: (
+    sm: 3px,
+    md: 5px
+  ),
+  rounded: (
+    sm: 100%,
+    md: 100%
+  ),
+  circle: (
+    sm: 50%,
+    md: 50%
+  )
+);
+
+// disabled
+$disabled-filled-true-color: $gray;
+$disabled-filled-true-border-color: transparent;
+$disabled-filled-true-background-color: $gray-light;
+$disabled-filled-false-color: $gray;
+$disabled-filled-false-border-color: currentColor;
+
+.button {
+  cursor: pointer;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: $letter-spacing;
+  font-weight: $font-weight;
+  border-width: $border-width;
+  border-style: $border-style;
+  vertical-align: middle;
+  transition: all 400ms $transition-mode;
+
+  @each $type, $styles in $types {
+    &:not(:disabled)[data-type="#{$type}"] {
+      &[data-is-filled="true"] {
+        color: map-get($styles, filled-true-color);
+        border-color: map-get($styles, filled-true-border-color);
+        background-color: map-get($styles, filled-true-background-color);
+
+        &:not(:disabled):hover,
+        &:not(:disabled):focus {
+          color: map-get($styles, filled-true-color-activate);
+          border-color: map-get($styles, filled-true-border-color-activate);
+          background-color: map-get($styles, filled-true-background-color-activate);
+        }
+      }
+
+      &[data-is-filled="false"] {
+        color: map-get($styles, filled-false-color);
+        border-color: map-get($styles, filled-false-border-color);
+        background-color: transparent;
+
+        &:not(:disabled):hover,
+        &:not(:disabled):focus {
+          color: map-get($styles, filled-false-color-activate);
+        }
+      }
+    }
+  }
+
+  &[data-is-block="true"] {
+    display: flex;
+    width: 100%;
+  }
+
+  &[data-is-block="false"] {
+    display: inline-flex;
+  }
+
+  @each $size, $styles in $sizes {
+    &[data-size="#{$size}"] {
+      height: map-get($styles, height);
+      padding: 0 map-get($styles, padding-horizontal);
+      font-size: map-get($styles, font-size);
+    }
+  }
+
+  @each $shape, $shape-sizes in $shapes {
+    &[data-shape="#{$shape}"] {
+      @each $shape-size, $border-radius in $shape-sizes {
+        &[data-size="#{$shape-size}"] {
+          @if ($shape == "circle") {
+            padding: 0;
+            width: map-get(map-get($sizes, $shape-size), height);
+            border-radius: $border-radius;
+          } @else if ($shape == "rounded") {
+            border-radius: #{map-get(map-get($sizes, $shape-size), height)} / $border-radius;
+          } @else {
+            border-radius: $border-radius;
+          }
+        }
+      }
+    }
+  }
+
+  &:disabled {
+    &[data-is-filled="true"] {
+      color: $disabled-filled-true-color;
+      border-color: $disabled-filled-true-border-color;
+      background-color: $disabled-filled-true-background-color;
+    }
+
+    &[data-is-filled="false"] {
+      color: $disabled-filled-false-color;
+      border-color: $disabled-filled-false-border-color;
+      background-color: transparent;
+    }
+  }
+}

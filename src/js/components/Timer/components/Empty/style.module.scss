@@ -1,0 +1,16 @@
+.timer-empty {
+  &__image-wrapper {
+    z-index: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    @include size(300px);
+  }
+
+  &__image {
+    z-index: -1;
+    position: absolute;
+    @include size(100%);
+  }
+}

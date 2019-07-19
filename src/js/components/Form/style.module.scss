@@ -1,0 +1,6 @@
+.form {
+  display: inherit;
+  flex: inherit;
+  flex-direction: inherit;
+  @include size(inherit);
+}

@@ -1,0 +1,18 @@
+.task {
+  position: relative;
+
+  &__prefix {
+    position: absolute;
+
+    &--current {
+      top: 18px;
+      left: 14px;
+      @include size(12px);
+    }
+
+    &--complete {
+      top: 15px;
+      left: 10px;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+$margin-bottom: 4px;
+
+$font-size: $font-size-md;
+$font-weight: 400;
+
+.list-item-meta-title {
+  margin-bottom: $margin-bottom;
+  line-height: 1;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  @include text-truncate-singleline;
+}

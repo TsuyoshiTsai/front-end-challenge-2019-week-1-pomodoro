@@ -1,0 +1,20 @@
+$color: $gray-white;
+$color-active: $color-primary;
+
+$background-color-hover: $gray-darker;
+
+.menu-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color;
+  @include size(100%);
+
+  &:hover {
+    background-color: $background-color-hover;
+  }
+
+  &--active {
+    color: $color-active;
+  }
+}

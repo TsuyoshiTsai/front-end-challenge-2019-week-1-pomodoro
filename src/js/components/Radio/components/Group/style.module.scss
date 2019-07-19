@@ -1,0 +1,54 @@
+// ---
+// tab
+$tab: (
+  margin-left: 5px,
+  padding-vertical: 6px,
+  padding-horizontal: 20px,
+  border-radius: 8px,
+  checked-true-color: $gray-white,
+  checked-false-color: $gray-light,
+  checked-true-background-color: $color-primary,
+  checked-false-background-color: $gray
+);
+
+.radio-group {
+  position: relative;
+  display: inline-flex;
+
+  &[data-mode="default"] {
+    &[data-direction="horizontal"] {
+      & > [role="radio-label"] {
+        &:not(:first-of-type) {
+          margin-left: 24px;
+        }
+      }
+    }
+  }
+
+  &[data-mode="tab"] > [role="radio-label"] {
+    padding: map-get($tab, padding-vertical) map-get($tab, padding-horizontal);
+    border-radius: map-get($tab, border-radius) map-get($tab, border-radius) 0 0;
+
+    &:not(:first-of-type) {
+      margin-left: map-get($tab, margin-left);
+    }
+
+    &[data-is-checked="true"] {
+      color: map-get($tab, checked-true-color);
+      background-color: map-get($tab, checked-true-background-color);
+    }
+
+    &[data-is-checked="false"] {
+      color: map-get($tab, checked-false-color);
+      background-color: map-get($tab, checked-false-background-color);
+    }
+  }
+
+  &[data-direction="vertical"] {
+    flex-direction: column;
+  }
+
+  &[data-direction="horizontal"] {
+    flex-direction: row;
+  }
+}

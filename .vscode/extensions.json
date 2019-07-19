@@ -5,8 +5,6 @@
     // ENVIRONMENT
 
     // DEVELOPMENT
-    // sass highlighting, autocomplete, snippets
-    "robinbentley.sass-indented",
     // prettier
     "esbenp.prettier-vscode",
     // react snippets
