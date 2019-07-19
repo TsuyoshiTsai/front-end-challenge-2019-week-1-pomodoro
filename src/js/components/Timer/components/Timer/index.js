@@ -163,15 +163,13 @@ function Timer (props) {
       </div>
 
       <div className={cx('timer__complete-button-wrapper')}>
-        <button className={cx('timer__complete-button')} type='button' onClick={null}>
-          <Typography.Text
-            prefix={<img src={CheckSVG} alt='complete' />}
-            prefixMarginRight={5}
-            lineHeight={1}
-            letterSpacing='.1em'
-            fontWeight={700}
-            onClick={event => setIsModalOpened(true)}
-          >
+        <button
+          className={cx('timer__complete-button')}
+          type='button'
+          disabled={isCounting || percentage === 0}
+          onClick={event => setIsModalOpened(true)}
+        >
+          <Typography.Text prefix={<img src={CheckSVG} alt='complete' />} prefixMarginRight={5} lineHeight={1} letterSpacing='.1em' fontWeight={700}>
             TASK COMPLETE
           </Typography.Text>
         </button>
