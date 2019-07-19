@@ -1,0 +1,26 @@
+.ring-tone {
+  &__item-prefix {
+    margin: 18px 14px;
+    @include size(12px);
+  }
+
+  &__item-suffix {
+    position: relative;
+    margin-left: auto;
+    margin-right: 10px;
+    @include size(20px);
+
+    &[data-is-playing="true"] {
+      opacity: 1;
+    }
+
+    &[data-is-playing="false"] {
+      opacity: 0.5;
+    }
+  }
+
+  &__item-suffix-icon {
+    font-size: 0;
+    @include position-centre;
+  }
+}

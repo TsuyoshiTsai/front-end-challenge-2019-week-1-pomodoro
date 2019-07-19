@@ -12,7 +12,8 @@ import Typography from '../../../Typography'
 import CompleteModal from '../CompleteModal'
 
 // Modules
-import { operations, selectors } from '../../../../lib/redux/modules/task'
+import { operations as taskOperations, selectors as taskSelectors } from '../../../../lib/redux/modules/task'
+import { selectors as audioSelectors } from '../../../../lib/redux/modules/audio'
 import {
   getPercentageOfWork,
   getPercentageOfBreak,
@@ -35,6 +36,8 @@ const cx = classnames.bind(styles)
 export const propTypes = {
   task: TaskPropTypes.task,
   isCounting: PropTypes.bool,
+  workAudio: PropTypes.object,
+  breakAudio: PropTypes.object,
   setWorkSeconds: PropTypes.func,
   setBreakSeconds: PropTypes.func,
   addWorkHistory: PropTypes.func,
@@ -43,7 +46,7 @@ export const propTypes = {
 }
 
 function Timer (props) {
-  const { task, isCounting, setWorkSeconds, setBreakSeconds, addWorkHistory, setIsBreaking, setIsCounting } = props
+  const { task, isCounting, workAudio, breakAudio, setWorkSeconds, setBreakSeconds, addWorkHistory, setIsBreaking, setIsCounting } = props
   const { id, title, isBreaking, estimateSeconds, workSeconds, breakSeconds, workHistory } = task
 
   const percentage = isBreaking ? getPercentageOfBreak(breakSeconds) : getPercentageOfWork(workSeconds)
@@ -66,16 +69,31 @@ function Timer (props) {
       setIsBreaking({ id, isBreaking: true })
       setWorkSeconds({ id, workSeconds: 0 })
       addWorkHistory({ id, finishDateTime: new Date().toString() })
+      new Audio(workAudio.path).play()
     } else if (isCounting && isBreaking && checkIsTimeoutOfBreak(breakSeconds)) {
       setIsCounting(false)
       setIsBreaking({ id, isBreaking: false })
       setBreakSeconds({ id, breakSeconds: 0 })
+      new Audio(breakAudio.path).play()
     }
 
     return () => {
       clearTimeout(timeoutId.current)
     }
-  }, [id, isBreaking, workSeconds, breakSeconds, isCounting, setWorkSeconds, setBreakSeconds, addWorkHistory, setIsBreaking, setIsCounting])
+  }, [
+    id,
+    workAudio,
+    breakAudio,
+    isBreaking,
+    workSeconds,
+    breakSeconds,
+    isCounting,
+    setWorkSeconds,
+    setBreakSeconds,
+    addWorkHistory,
+    setIsBreaking,
+    setIsCounting,
+  ])
 
   const onPlay = event => {
     if (!isBreaking && checkIsTimeoutOfWork(workSeconds)) return
@@ -166,17 +184,19 @@ Timer.propTypes = propTypes
 
 const mapStateToProps = (state, props) => {
   return {
-    task: selectors.getCurrentTask(state, props),
-    isCounting: selectors.getIsCounting(state, props),
+    task: taskSelectors.getCurrentTask(state, props),
+    isCounting: taskSelectors.getIsCounting(state, props),
+    workAudio: audioSelectors.getWorkAudio(state, props),
+    breakAudio: audioSelectors.getBreakAudio(state, props),
   }
 }
 
 const mapDispatchToProps = {
-  setWorkSeconds: ({ id, workSeconds }) => operations.updateItemInList({ keyName: 'id', key: id, item: { workSeconds } }),
-  setBreakSeconds: ({ id, breakSeconds }) => operations.updateItemInList({ keyName: 'id', key: id, item: { breakSeconds } }),
-  setIsBreaking: ({ id, isBreaking }) => operations.updateItemInList({ keyName: 'id', key: id, item: { isBreaking } }),
-  addWorkHistory: operations.addWorkHistory,
-  setIsCounting: operations.setIsCounting,
+  setWorkSeconds: ({ id, workSeconds }) => taskOperations.updateItemInList({ keyName: 'id', key: id, item: { workSeconds } }),
+  setBreakSeconds: ({ id, breakSeconds }) => taskOperations.updateItemInList({ keyName: 'id', key: id, item: { breakSeconds } }),
+  setIsBreaking: ({ id, isBreaking }) => taskOperations.updateItemInList({ keyName: 'id', key: id, item: { isBreaking } }),
+  addWorkHistory: taskOperations.addWorkHistory,
+  setIsCounting: taskOperations.setIsCounting,
 }
 
 export default connect(

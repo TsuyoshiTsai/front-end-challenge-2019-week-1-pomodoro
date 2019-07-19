@@ -1,26 +1,18 @@
 .task {
-  border-radius: 2px;
-  background-color: $gray-darker;
+  position: relative;
 
-  &:not(:last-of-type) {
-    margin-bottom: 1px;
-  }
+  &__prefix {
+    position: absolute;
 
-  &__title-wrapper {
-    position: relative;
-    padding: 8px 0;
-    display: flex;
-    flex-direction: column;
-    @include size(100%);
-  }
+    &--current {
+      top: 18px;
+      left: 14px;
+      @include size(12px);
+    }
 
-  &__prefix-image {
-    @include position-center-over-left;
-    @include size(13px);
-    left: -13px;
-  }
-
-  &__title {
-    margin-bottom: 2px;
+    &--complete {
+      top: 15px;
+      left: 10px;
+    }
   }
 }

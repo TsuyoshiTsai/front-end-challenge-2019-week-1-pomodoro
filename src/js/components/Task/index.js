@@ -4,7 +4,8 @@ import classnames from 'classnames/bind'
 
 // Component
 import Collapse from '../Collapse'
-import Typography from '../Typography'
+import Icon from '../Icon'
+import List from '../List'
 import Group from './components/Group'
 import ClockGroup from './components/ClockGroup'
 
@@ -38,19 +39,30 @@ function Task (props) {
   const { isCurrent, task, ...restProps } = props
 
   return (
-    <Collapse.Panel
+    <List.Item
       className={cx('task')}
-      header={
-        <div className={cx('task__title-wrapper')}>
-          {isCurrent && <img className={cx('task__prefix-image')} src={TomatoSVG} alt='tomato' />}
-          <Typography.Text className={cx('task__title')} isBlock>
-            {task.title}
-          </Typography.Text>
-          <ClockGroup estimateSeconds={task.estimateSeconds} workSeconds={task.workSeconds} workFinishCount={task.workHistory.length} />
-        </div>
+      prefix={
+        isCurrent ? (
+          <img className={cx('task__prefix', 'task__prefix--current')} src={TomatoSVG} alt='tomato' />
+        ) : (
+          task.isComplete && <Icon className={cx('task__prefix', 'task__prefix--complete')} name='check' mode='01' />
+        )
       }
-      {...restProps}
-    />
+    >
+      <Collapse.Panel
+        width='100%'
+        style={{ minHeight: 50 }}
+        header={
+          <List.Item.Meta
+            title={task.title}
+            description={
+              <ClockGroup estimateSeconds={task.estimateSeconds} workSeconds={task.workSeconds} workFinishCount={task.workHistory.length} />
+            }
+          />
+        }
+        {...restProps}
+      />
+    </List.Item>
   )
 }
 

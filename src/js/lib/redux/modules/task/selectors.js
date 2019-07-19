@@ -13,4 +13,4 @@ export const getCurrentId = (state, props) => getStatusValue(state, { keyName: '
 export const getIsCounting = (state, props) => getStatusValue(state, { keyName: 'isCounting' })
 
 // combo
-export const getCurrentTask = (state, props) => getList(state, props).find(task => task.id === getCurrentId(state, props)) || null
+export const getCurrentTask = (state, props) => getItemById(state, { ...props, id: getCurrentId(state, props) })

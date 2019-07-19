@@ -1,8 +1,4 @@
 .task-list {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-
   &__action-list {
     padding-top: 10px;
     border-top: 1px solid $gray-darkest;

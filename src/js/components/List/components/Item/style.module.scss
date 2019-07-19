@@ -1,0 +1,17 @@
+$min-height: 50px;
+
+.list-item {
+  display: flex;
+  align-items: center;
+  min-height: $min-height;
+  border-radius: 2px;
+  background-color: $gray-darker;
+
+  &:not(:last-of-type) {
+    margin-bottom: 1px;
+  }
+
+  &[data-is-selectable="true"] {
+    cursor: pointer;
+  }
+}
