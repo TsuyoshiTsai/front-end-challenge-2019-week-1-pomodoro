@@ -62,7 +62,7 @@ function TaskList (props) {
   const onSubmit = (values, actions, task) => {
     actions.resetForm(values)
 
-    const updatedDateTime = new Date().toString()
+    const updatedDateTime = new Date().getTime()
 
     const item = {
       title: values.title.trim(),

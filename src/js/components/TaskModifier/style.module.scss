@@ -1,0 +1,21 @@
+.task-modifier {
+  &__rate-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__rate {
+    cursor: pointer;
+    filter: grayscale(150%);
+    transition: filter, transform 200ms $transition-mode;
+
+    &[data-is-filled="true"],
+    &:hover {
+      filter: grayscale(0%);
+    }
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}

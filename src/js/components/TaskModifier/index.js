@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Formik, Field } from 'formik'
+import { Formik } from 'formik'
+import classnames from 'classnames/bind'
 
 // Components
 import Button from '../Button'
-import Form, { VALIDATE_STATUS } from '../Form'
+import Form from '../Form'
 import { propTypes as TaskPropTypes } from '../Task'
 
 // Lib MISC
@@ -13,6 +14,15 @@ import validationSchema from './validationSchema'
 
 // Modules
 import { selectors } from '../../lib/redux/modules/task'
+
+// Assets
+import TomatoSVG from '../../../assets/images/icons/Tomato.svg'
+
+// Style
+import styles from './style.module.scss'
+
+// Variables / Functions
+const cx = classnames.bind(styles)
 
 export const propTypes = {
   mode: PropTypes.oneOf(['add', 'edit']),
@@ -33,9 +43,11 @@ function TaskModifier (props) {
   const isAdd = mode === 'add'
   const isEdit = mode === 'edit'
 
+  const [hoverIndex, setHoverIndex] = useState(0)
+
   return (
     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-      {({ touched, errors, values, isValid, isSubmitting }) => {
+      {({ setFieldValue, values, isValid, isSubmitting }) => {
         return (
           <Form {...restProps}>
             <Form.InputField
@@ -48,16 +60,20 @@ function TaskModifier (props) {
 
             <Form.Group style={{ marginBottom: isAdd ? 50 : isEdit && 20 }}>
               <Form.Label style={{ marginBottom: isEdit && 5, fontSize: isEdit && 12 }}>ESTIMATE TOMATO</Form.Label>
-              <Field name='estimateClocks' style={{ height: isEdit && 40 }}>
-                {({ field }) => (
-                  <>
-                    <input {...field} type='number' />
-                    <Form.Help isShowed={touched[field.name] && errors[field.name]} validateStatus={VALIDATE_STATUS.ERROR}>
-                      {errors[field.name]}
-                    </Form.Help>
-                  </>
-                )}
-              </Field>
+              <div className={cx('task-modifier__rate-wrapper')} onMouseLeave={event => setHoverIndex(0)}>
+                {new Array(10).fill().map((empty, index) => (
+                  <span
+                    key={index}
+                    className={cx('task-modifier__rate')}
+                    style={{ width: isAdd ? 25 : isEdit && 20 }}
+                    data-is-filled={index <= hoverIndex || index < values.estimateClocks}
+                    onMouseEnter={event => setHoverIndex(index)}
+                    onClick={event => setFieldValue('estimateClocks', index + 1)}
+                  >
+                    <img src={TomatoSVG} alt='tomato' />
+                  </span>
+                ))}
+              </div>
             </Form.Group>
 
             {isAdd ? (
@@ -85,7 +101,7 @@ function TaskModifier (props) {
                     size='sm'
                     shape='rounded'
                     style={{ flexGrow: 1, marginLeft: 20 }}
-                    disabled={!isValid || isSubmitting}
+                    disabled={!isValid || isSubmitting || (currentTask && currentTask.id === values.id && isCounting)}
                   >
                     SAVE
                   </Button>
