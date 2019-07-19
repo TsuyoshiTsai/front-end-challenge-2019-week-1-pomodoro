@@ -1,47 +1,89 @@
-import React, { useState } from 'react'
-// import PropTypes from 'prop-types'
+import React, { useState, useRef } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classnames from 'classnames/bind'
 
 // Components
-// import { withEmpty } from '../../components/Empty'
-// import Task, { propTypes as TaskPropTypes } from '../../components/Task'
 import Chart from '../../components/Chart'
 import Typography from '../../components/Typography'
 import Radio from '../../components/Radio'
+import Icon from '../../components/Icon'
 import List from '../../components/List'
-// import Empty from './components/Empty'
+
+// Modules
+import { selectors, operations } from '../../lib/redux/modules/audio'
 
 // Style
 import styles from './style.module.scss'
 
-// Modules
-
 // Variables / Functions
 const cx = classnames.bind(styles)
 // const TaskGroupWithEmpty = withEmpty(Task.Group)
-const tabs = [{ label: 'WORK', value: 'work' }, { label: 'BREAK', value: 'break' }]
-const rings = [{ name: 'Ring tone 1', type: 'work' }, { name: 'Ring tone 2', type: 'break' }]
+const TYPE = { WORK: 'WORK', BREAK: 'BREAK' }
+const tabs = [{ label: 'WORK', value: TYPE.WORK }, { label: 'BREAK', value: TYPE.BREAK }]
 
 export const propTypes = {
-  // match: PropTypes.object,
-  // history: PropTypes.object,
-  // tasks: PropTypes.arrayOf(TaskPropTypes.task),
-  // currentTaskId: PropTypes.string,
-  // isCounting: PropTypes.bool,
-  // editTask: PropTypes.func,
-  // uncompleteTask: PropTypes.func,
-  // unarchiveTask: PropTypes.func,
-  // setCurrentId: PropTypes.func,
+  audios: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      title: PropTypes.string,
+      path: PropTypes.string,
+    })
+  ),
+  workAudio: PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string,
+    path: PropTypes.string,
+  }),
+  breakAudio: PropTypes.shape({
+    id: PropTypes.string,
+    title: PropTypes.string,
+    path: PropTypes.string,
+  }),
+  workId: PropTypes.string,
+  breakId: PropTypes.string,
+  setWorkId: PropTypes.func,
+  setBreakId: PropTypes.func,
 }
 
 function RingTone (props) {
-  // const { match, history, tasks, currentTaskId, isCounting, editTask, uncompleteTask, unarchiveTask, setCurrentId } = props
-  // const { path, url } = match
+  const { audios, workId, breakId, setWorkId, setBreakId } = props
 
-  const [filterStatus, setFilterStatus] = useState(tabs[0].value)
+  const audioRef = useRef(null)
+  const [currentAudio, setCurrentAudio] = useState(null)
+  const [currentType, setCurrentType] = useState(tabs[0].value)
+  const currentId = currentType === TYPE.WORK ? workId : currentType === TYPE.BREAK && breakId
+  const currentAction = currentType === TYPE.WORK ? setWorkId : currentType === TYPE.BREAK && setBreakId
 
-  const onRadioChange = (event, value) => setFilterStatus(value)
+  const onRadioChange = (event, value) => {
+    if (audioRef.current !== null && !audioRef.current.paused) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+    }
+
+    setCurrentType(value)
+  }
+
+  const onAudioPlay = audio => {
+    // 如果已經選了，而且正在播放中，就暫停
+    // 如果已經選了，而且已經選的和新選的一樣且暫停中，就播放
+    if (audioRef.current !== null && !audioRef.current.paused) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+    } else if (audioRef.current !== null && currentAudio.id === audio.id && audioRef.current.paused) {
+      audioRef.current = new Audio(audio.path)
+      audioRef.current.play()
+    }
+
+    // 如果還沒選，或是已經選的和新選的不同，就播放
+    if (audioRef.current === null || currentAudio.id !== audio.id) {
+      audioRef.current = new Audio(audio.path)
+      audioRef.current.play()
+    }
+
+    // force re-render
+    setCurrentAudio({ ...audio })
+  }
 
   return (
     <>
@@ -51,7 +93,7 @@ function RingTone (props) {
 
       <Typography.Hr marginTop={25} marginBottom={25} />
 
-      <Radio.Group mode='tab' value={filterStatus} onChange={onRadioChange}>
+      <Radio.Group mode='tab' value={currentType} onChange={onRadioChange}>
         {tabs.map((tab, index) => (
           <Radio key={index} value={tab.value}>
             {tab.label}
@@ -60,9 +102,32 @@ function RingTone (props) {
       </Radio.Group>
 
       <List>
-        {rings.map((ring, index) => (
-          <List.Item key={index} prefix={<Chart type='pie' percentage={100} className={cx('ring-tone__item-prefix')} />}>
-            {ring.name}
+        {audios.map((audio, index) => (
+          <List.Item
+            key={index}
+            isSelectable
+            prefix={<Chart type='pie' percentage={audio.id === currentId ? 100 : 0} className={cx('ring-tone__item-prefix')} />}
+            suffix={
+              <span
+                className={cx('ring-tone__item-suffix')}
+                data-is-playing={currentAudio !== null && currentAudio.id === audio.id && !audioRef.current.paused}
+              >
+                <span className={cx('ring-tone__item-suffix-icon')}>
+                  {currentAudio !== null && currentAudio.id === audio.id && !audioRef.current.paused ? (
+                    <Icon name='pause' mode='02' />
+                  ) : (
+                    <Icon name='play' mode='02' />
+                  )}
+                </span>
+                <Chart type='ring' centerColor='transparent' strokeWidth={30} segmentColor='#fff' percentage={100} />
+              </span>
+            }
+            onClick={event => {
+              currentAction(audio.id)
+              onAudioPlay(audio)
+            }}
+          >
+            {audio.title}
           </List.Item>
         ))}
       </List>
@@ -73,10 +138,19 @@ function RingTone (props) {
 RingTone.propTypes = propTypes
 
 const mapStateToProps = (state, props) => {
-  return {}
+  return {
+    audios: selectors.getList(state, props),
+    workAudio: selectors.getWorkAudio(state, props),
+    breakAudio: selectors.getBreakAudio(state, props),
+    workId: selectors.getWorkId(state, props),
+    breakId: selectors.getBreakId(state, props),
+  }
 }
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  setWorkId: operations.setWorkId,
+  setBreakId: operations.setBreakId,
+}
 
 export default connect(
   mapStateToProps,

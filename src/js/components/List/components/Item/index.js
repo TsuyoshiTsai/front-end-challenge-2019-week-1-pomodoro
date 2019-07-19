@@ -12,21 +12,20 @@ import styles from './style.module.scss'
 const cx = classnames.bind(styles)
 
 export const propTypes = {
-  withBorder: PropTypes.bool,
+  isSelectable: PropTypes.bool,
   prefix: PropTypes.node,
   suffix: PropTypes.node,
   className: PropTypes.string,
   children: PropTypes.any,
 }
 
-export const defaultProps = {
-}
+export const defaultProps = {}
 
 function Item (props) {
-  const { withBorder, prefix, suffix, className, children, ...restProps } = props
+  const { isSelectable, prefix, suffix, className, children, ...restProps } = props
 
   return (
-    <div className={cx('list-item', className)} data-with-border={withBorder} {...restProps}>
+    <div className={cx('list-item', className)} data-is-selectable={isSelectable} {...restProps}>
       {prefix}
       {children}
       {suffix}

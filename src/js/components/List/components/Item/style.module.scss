@@ -11,7 +11,7 @@ $min-height: 50px;
     margin-bottom: 1px;
   }
 
-  &[data-with-border="true"] {
-    box-shadow: inset 0 -1px 0 0 $gray-light;
+  &[data-is-selectable="true"] {
+    cursor: pointer;
   }
 }
