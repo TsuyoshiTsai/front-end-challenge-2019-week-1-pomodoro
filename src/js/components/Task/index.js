@@ -29,7 +29,7 @@ export const propTypes = {
     estimateSeconds: PropTypes.number,
     workSeconds: PropTypes.number,
     breakSeconds: PropTypes.number,
-    workHistory: PropTypes.arrayOf(PropTypes.string),
+    workHistory: PropTypes.arrayOf(PropTypes.number),
     createdDateTime: PropTypes.number,
     updatedDateTime: PropTypes.number,
   }),

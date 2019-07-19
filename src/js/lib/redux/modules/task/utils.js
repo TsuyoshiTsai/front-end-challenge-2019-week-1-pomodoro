@@ -28,7 +28,7 @@ export const getRemainingSecondsOfClock = (secondsOfClock, seconds) => secondsOf
 export const getRemainingSecondsOfWork = getRemainingSecondsOfClock.bind(null, WORK_SECONDS_OF_CLOCK)
 export const getRemainingSecondsOfBreak = getRemainingSecondsOfClock.bind(null, BREAK_SECONDS_OF_CLOCK)
 
-export const getPercentage = (secondsOfClock, seconds) => (getPassedSecondsOfWork(seconds) / secondsOfClock) * 100
+export const getPercentage = (secondsOfClock, seconds) => (getPassedSecondsOfClock(secondsOfClock, seconds) / secondsOfClock) * 100
 export const getPercentageOfWork = getPercentage.bind(null, WORK_SECONDS_OF_CLOCK)
 export const getPercentageOfBreak = getPercentage.bind(null, BREAK_SECONDS_OF_CLOCK)
 

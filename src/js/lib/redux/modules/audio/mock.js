@@ -7,27 +7,27 @@ import PhoneAlertsAndRingsMP3 from '../../../../../assets/audios/alarms/Phone_Al
 export const audios = [
   {
     id: '1',
-    title: 'Alarm Clock',
-    path: AlarmClockMP3,
-  },
-  {
-    id: '2',
     title: 'Beep Short',
     path: BeepShortMP3,
   },
   {
-    id: '3',
+    id: '2',
     title: 'Mechanical Clock Ring',
     path: MechanicalClockRingMP3,
   },
   {
-    id: '4',
+    id: '3',
     title: 'Medium Bell Ringing Near',
     path: MediumBellRingingNearMP3,
   },
   {
-    id: '5',
+    id: '4',
     title: 'Phone Alerts And Rings',
     path: PhoneAlertsAndRingsMP3,
+  },
+  {
+    id: '5',
+    title: 'Alarm Clock',
+    path: AlarmClockMP3,
   },
 ]

@@ -68,7 +68,7 @@ function Timer (props) {
       setIsCounting(false)
       setIsBreaking({ id, isBreaking: true })
       setWorkSeconds({ id, workSeconds: 0 })
-      addWorkHistory({ id, finishDateTime: new Date().toString() })
+      addWorkHistory({ id, finishDateTime: new Date().getTime() })
       new Audio(workAudio.path).play()
     } else if (isCounting && isBreaking && checkIsTimeoutOfBreak(breakSeconds)) {
       setIsCounting(false)
