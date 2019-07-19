@@ -1,7 +1,7 @@
 $letter-spacing: 0.1em;
 $font-weight: 900;
 
-$border-width: 1px;
+$border-width: 2px;
 $border-style: solid;
 
 // ---
@@ -14,8 +14,8 @@ $types: (
     filled-true-border-color-activate: transparent,
     filled-true-background-color: $gray-white,
     filled-true-background-color-activate: $gray-white,
-    filled-false-color: $gray-white,
-    filled-false-color-activate: $color-primary,
+    filled-false-color: $color-primary,
+    filled-false-color-activate: $color-primary-dark,
     filled-false-border-color: currentColor
   ),
   primary: (
@@ -73,9 +73,11 @@ $shapes: (
 );
 
 // disabled
-$disabled-color: $gray;
-$disabled-border-color: transparent;
-$disabled-background-color: $gray-light;
+$disabled-filled-true-color: $gray;
+$disabled-filled-true-border-color: transparent;
+$disabled-filled-true-background-color: $gray-light;
+$disabled-filled-false-color: $gray;
+$disabled-filled-false-border-color: currentColor;
 
 .button {
   cursor: pointer;
@@ -153,8 +155,16 @@ $disabled-background-color: $gray-light;
   }
 
   &:disabled {
-    color: $disabled-color;
-    border-color: $disabled-border-color;
-    background-color: $disabled-background-color;
+    &[data-is-filled="true"] {
+      color: $disabled-filled-true-color;
+      border-color: $disabled-filled-true-border-color;
+      background-color: $disabled-filled-true-background-color;
+    }
+
+    &[data-is-filled="false"] {
+      color: $disabled-filled-false-color;
+      border-color: $disabled-filled-false-border-color;
+      background-color: transparent;
+    }
   }
 }

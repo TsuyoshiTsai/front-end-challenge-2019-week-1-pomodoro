@@ -74,6 +74,7 @@ function TaskModifier (props) {
                     shape='rounded'
                     disabled={currentTask && currentTask.id === values.id && isCounting}
                     onClick={onArchive}
+                    width={100}
                   >
                     ARCHIVE
                   </Button>

@@ -90,7 +90,7 @@ function TaskList (props) {
       case STATUS.COMPLETE:
         return (
           <div style={{ display: 'flex' }}>
-            <Button type='gray' size='sm' shape='rounded' onClick={event => history.push(`${url}/${task.id}`)}>
+            <Button type='gray' size='sm' shape='rounded' onClick={event => history.push(`${url}/${task.id}`)} width={100}>
               ARCHIVE
             </Button>
             <Button
