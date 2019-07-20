@@ -53,8 +53,7 @@ export const propTypes = {
 
 function TaskList (props) {
   const { match, history, tasks, currentTaskId, isCounting, editTask, uncompleteTask, unarchiveTask, setCurrentId } = props
-  const { path, url } = match
-  const urlWithRoot = `${process.env.PUBLIC_URL}${url}`
+  const urlWithRoot = `${process.env.PUBLIC_URL}${match.url}`
 
   const [filterStatus, setFilterStatus] = useState(tabs[0].value)
 
@@ -115,8 +114,10 @@ function TaskList (props) {
 
   return (
     <>
-      <Route strict sensetive exact path={`${url}/:id`}>
-        {({ staticContext, ...props }) => <ArchiveModal isOpened={props.match !== null} afterClose={() => history.push(path)} {...props} />}
+      <Route strict sensetive exact path={`${urlWithRoot}/:id`}>
+        {({ staticContext, ...routeProps }) => (
+          <ArchiveModal isOpened={routeProps.match !== null} afterClose={() => history.push(match.path)} {...routeProps} />
+        )}
       </Route>
 
       <Typography.Title level='h1' color='white' marginBottom={0} letterSpacing='.1em'>
