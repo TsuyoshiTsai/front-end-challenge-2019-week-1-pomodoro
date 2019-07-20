@@ -22,7 +22,7 @@ function ArchiveModal (props) {
   const { match, onClose, task, archiveTask } = props
 
   return task === null || match === null ? (
-    <Redirect exact strict sensitive replace to={'/task/list'} />
+    <Redirect exact strict sensitive replace to={`${process.env.PUBLIC_URL}/task/list`} />
   ) : (
     <>
       <Modal.Header>Archive Task</Modal.Header>

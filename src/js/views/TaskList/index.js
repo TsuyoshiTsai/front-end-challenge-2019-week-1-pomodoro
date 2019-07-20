@@ -54,6 +54,7 @@ export const propTypes = {
 function TaskList (props) {
   const { match, history, tasks, currentTaskId, isCounting, editTask, uncompleteTask, unarchiveTask, setCurrentId } = props
   const { path, url } = match
+  const urlWithRoot = `${process.env.PUBLIC_URL}${url}`
 
   const [filterStatus, setFilterStatus] = useState(tabs[0].value)
 
@@ -81,14 +82,14 @@ function TaskList (props) {
             mode='edit'
             initialValues={{ id: task.id, title: task.title, estimateClocks: getClocksOfWork(task.estimateSeconds) }}
             onSubmit={(values, actions) => onSubmit(values, actions, task)}
-            onArchive={event => history.push(`${path}/${task.id}`)}
+            onArchive={event => history.push(`${urlWithRoot}/${task.id}`)}
           />
         )
 
       case STATUS.COMPLETE:
         return (
           <div style={{ display: 'flex' }}>
-            <Button type='gray' size='sm' shape='rounded' onClick={event => history.push(`${url}/${task.id}`)} width={100}>
+            <Button type='gray' size='sm' shape='rounded' onClick={event => history.push(`${urlWithRoot}/${task.id}`)} width={100}>
               ARCHIVE
             </Button>
             <Button
