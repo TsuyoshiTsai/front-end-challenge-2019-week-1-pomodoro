@@ -22,7 +22,7 @@ function Empty (props) {
   return (
     <div className={cx('task-list-empty')}>
       <p className={cx('task-list-empty__description')}>No Tasks</p>
-      <Button type='primary' shape='rounded' size='sm' onClick={event => history.push('/task/add')}>
+      <Button type='primary' shape='rounded' size='sm' onClick={event => history.push(`${process.env.PUBLIC_URL}/task/add`)}>
         GO TO ADD
       </Button>
     </div>
