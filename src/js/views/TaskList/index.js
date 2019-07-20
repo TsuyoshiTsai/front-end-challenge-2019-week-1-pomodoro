@@ -53,7 +53,6 @@ export const propTypes = {
 
 function TaskList (props) {
   const { match, history, tasks, currentTaskId, isCounting, editTask, uncompleteTask, unarchiveTask, setCurrentId } = props
-  const urlWithRoot = `${process.env.PUBLIC_URL}${match.url}`
 
   const [filterStatus, setFilterStatus] = useState(tabs[0].value)
 
@@ -81,14 +80,14 @@ function TaskList (props) {
             mode='edit'
             initialValues={{ id: task.id, title: task.title, estimateClocks: getClocksOfWork(task.estimateSeconds) }}
             onSubmit={(values, actions) => onSubmit(values, actions, task)}
-            onArchive={event => history.push(`${urlWithRoot}/${task.id}`)}
+            onArchive={event => history.push(`${match.url}/${task.id}`)}
           />
         )
 
       case STATUS.COMPLETE:
         return (
           <div style={{ display: 'flex' }}>
-            <Button type='gray' size='sm' shape='rounded' onClick={event => history.push(`${urlWithRoot}/${task.id}`)} width={100}>
+            <Button type='gray' size='sm' shape='rounded' onClick={event => history.push(`${match.url}/${task.id}`)} width={100}>
               ARCHIVE
             </Button>
             <Button
@@ -114,7 +113,7 @@ function TaskList (props) {
 
   return (
     <>
-      <Route strict sensetive exact path={`${urlWithRoot}/:id`}>
+      <Route strict sensetive exact path={`${match.url}/:id`}>
         {({ staticContext, ...routeProps }) => (
           <ArchiveModal isOpened={routeProps.match !== null} afterClose={() => history.push(match.path)} {...routeProps} />
         )}
