@@ -174,7 +174,7 @@ function Timer (props) {
         <button
           className={cx('timer__complete-button')}
           type='button'
-          disabled={isCounting || percentage === 0}
+          disabled={isCounting}
           onClick={event => setIsModalOpened(true)}
         >
           <Typography.Text prefix={<img src={CheckSVG} alt='complete' />} prefixMarginRight={5} lineHeight={1} letterSpacing='.1em' fontWeight={700}>
