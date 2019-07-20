@@ -53,6 +53,7 @@ export const propTypes = {
 
 function App (props) {
   const { match } = props
+  const root = `${process.env.PUBLIC_URL}${match.url}`
 
   const [isSiderCollapsed, setIsSiderCollapsed] = useState(true)
 
@@ -76,7 +77,7 @@ function App (props) {
         <Menu className={cx('app__sider-menu')}>
           {navigations.map(({ path, icon }, index) => (
             <Menu.Item key={index} onClick={isSiderCollapsed ? event => setIsSiderCollapsed(false) : null}>
-              <Menu.Link to={`${match.url}${path}`}>
+              <Menu.Link to={`${root}${path}`}>
                 <Icon name={icon.name} mode={icon.mode} />
               </Menu.Link>
             </Menu.Item>
@@ -86,9 +87,9 @@ function App (props) {
         <main className={cx('app__sider-main')} style={{ opacity: isSiderCollapsed ? 0 : 1, visibility: isSiderCollapsed ? 'hidden' : 'visible' }}>
           <Switch>
             {navigations.map(({ path, component }, index) => (
-              <Route key={index} strict sensitive path={`${match.url}${path}`} component={component} />
+              <Route key={index} strict sensitive path={`${root}${path}`} component={component} />
             ))}
-            <Redirect replace from={match.url} to={`${match.url}${navigations[0].path}`} />
+            <Redirect replace from={root} to={`${root}${navigations[0].path}`} />
           </Switch>
         </main>
       </Layout.Sider>
